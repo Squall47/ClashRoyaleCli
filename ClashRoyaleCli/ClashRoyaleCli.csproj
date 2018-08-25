@@ -108,6 +108,7 @@
     <Compile Include="API\Models\WarParticipant.cs" />
     <Compile Include="BearerCredentials.cs" />
     <Compile Include="CardHelper.cs" />
+    <Compile Include="CardUsage.cs" />
     <Compile Include="ClientCR.cs" />
     <Compile Include="ConfigRepo.cs" />
     <Compile Include="CRConfig.cs" />

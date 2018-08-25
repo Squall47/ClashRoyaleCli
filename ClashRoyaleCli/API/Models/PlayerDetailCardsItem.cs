@@ -62,5 +62,10 @@ namespace ClashRoyale.API.Models
         [JsonProperty(PropertyName = "iconUrls")]
         public PlayerDetailCardsItemIconUrls IconUrls { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Name}={Level}";
+        }
+
     }
 }

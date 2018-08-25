@@ -87,7 +87,7 @@ namespace ClashRoyalCli
 
         private static bool TournamentIsFree(TournamentBaseItemsItem item)
         {
-            var test =  DateTime.Now.Subtract(item.CreatedTime).TotalMinutes;
+            //var test =  DateTime.Now.Subtract(item.CreatedTime).TotalMinutes;
             return (item.Type != "passwordProtected" && item.MaxCapacity - item.Capacity > 0);
                 //|| (item.Status != "inProgress" && item.Type != "passwordProtected" && /*DateTime.Now.Subtract(item.CreatedTime).TotalMinutes > 20 && */item.MaxCapacity - item.Capacity > 0);
         }
@@ -122,6 +122,17 @@ namespace ClashRoyalCli
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
                 return client.GetClan(tag);
+            }
+        }
+
+        public SearchResultClan GetDetailClan(string tag = null)
+        {
+            if (tag == null) tag = ConfigRepo.Config.ClanTag;
+            using (var client = new CRClient(_uriBaseUrl, _credentials))
+            {
+                var clan = GetClan(tag);
+                var clans = client.SearchClans(clan.Name);
+                return clans.Items.FirstOrDefault(p => p.Tag == clan.Tag);
             }
         }
 
@@ -169,13 +180,30 @@ namespace ClashRoyalCli
         #endregion
 
         #region Location
-        public Location GetLocation(string countryName)
+        public Location GetLocation(string countryName = null)
         {
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
                 var locations = client.GetLocations();
                 return locations.Items.FirstOrDefault(p => p.Name == countryName);
             }
+        }
+        #endregion
+
+        #region TopRanking
+        public List<CardUsage> GetCarsUsageTopRanking(int? idlocation = null)
+        {
+            var playerCards = new List<PlayerDetail>();
+            using (var client = new CRClient(_uriBaseUrl, _credentials))
+            {
+                var players = client.GetPlayerRanking(idlocation?.ToString());
+                foreach (var player in players.Items)
+                {
+                    var playerDetail = client.GetPlayer(player.Tag);
+                    playerCards.Add(playerDetail);
+                }
+            }
+            return playerCards.SelectMany(p => p.CurrentCards).GroupBy(p=> p.Name).Select(p=>new CardUsage { Name = p.First().Name, UsageCount = p.Count() }).OrderByDescending(p=> p.UsageCount).ToList();
         }
         #endregion
     }

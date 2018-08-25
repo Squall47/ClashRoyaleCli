@@ -150,6 +150,13 @@ namespace ClashRoyale.API.Models
         [JsonProperty(PropertyName = "cards")]
         public IList<PlayerDetailCardsItem> Cards { get; set; }
 
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "currentDeck")]
+        public IList<PlayerDetailCardsItem> CurrentCards { get; set; }
+        
+
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "currentFavouriteCard")]

@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using ClashRoyale.API.Models;
 
 namespace ClashRoyalCli
 {
@@ -10,6 +11,8 @@ namespace ClashRoyalCli
 
         static void Main(string[] args)
         {
+            PlayerDetail player;
+            Clan clan;
             if (ClientCR.Instance.NotConfigure())
             {
                 Console.WriteLine("You must complete the config.json file.");
@@ -19,12 +22,12 @@ namespace ClashRoyalCli
             }
             if(!string.IsNullOrEmpty(ConfigRepo.Config.PlayerTag))
             {
-                var player = ClientCR.Instance.GetPlayer(ConfigRepo.Config.PlayerTag);
+                player = ClientCR.Instance.GetPlayer(ConfigRepo.Config.PlayerTag);
                 Console.WriteLine($"Player : {player}");
             }
             if (!string.IsNullOrEmpty(ConfigRepo.Config.ClanTag))
             {
-                var clan = ClientCR.Instance.GetClan(ConfigRepo.Config.ClanTag);
+                clan = ClientCR.Instance.GetClan(ConfigRepo.Config.ClanTag);
                 Console.WriteLine($"Clan   : {clan}");
             }
             Console.WriteLine();
@@ -34,6 +37,7 @@ namespace ClashRoyalCli
                 Console.WriteLine("2 - Open tournaments");
                 Console.WriteLine("3 - Completed cards");
                 Console.WriteLine("4 - Missing cards");
+                Console.WriteLine("5 - Usage cards in local top 200 ");
 
                 Console.WriteLine("9 - Change player and clan");
                 Console.WriteLine("x - End");
@@ -99,11 +103,11 @@ namespace ClashRoyalCli
                         Console.Write($"Player tag :");
                         var tag = Console.ReadLine();
                         if (!tag.StartsWith("#")) tag = "#" + tag;
-                        var player = ClientCR.Instance.GetPlayer(tag);
-                        if (player != null)
+                        var playerlocal = ClientCR.Instance.GetPlayer(tag);
+                        if (playerlocal != null)
                         {
-                            Console.WriteLine($"Player : {player.Name}");
-                            ClientCR.Instance.SetPlayertag(player.Tag);
+                            Console.WriteLine($"Player : {playerlocal.Name}");
+                            ClientCR.Instance.SetPlayertag(playerlocal.Tag);
                             Console.Write($"Change clan (y,n) :");
                             while (true)
                             {
@@ -111,8 +115,8 @@ namespace ClashRoyalCli
                                 Console.WriteLine();
                                 if (ok.KeyChar.ToString().ToUpper() == "Y")
                                 {
-                                    Console.WriteLine($"Clan : {player.Clan.Name}");
-                                    ClientCR.Instance.SetClanTag(player.Clan.Tag);
+                                    Console.WriteLine($"Clan : {playerlocal.Clan.Name}");
+                                    ClientCR.Instance.SetClanTag(playerlocal.Clan.Tag);
                                     break;
                                 }
                                 if (ok.KeyChar.ToString().ToUpper() == "N") break;
@@ -128,16 +132,27 @@ namespace ClashRoyalCli
                         Console.Write($"Clan tag :");
                         var tag = Console.ReadLine();
                         if (!tag.StartsWith("#")) tag = "#" + tag;
-                        var clan = ClientCR.Instance.GetClan(tag);
-                        if (clan != null)
+                        var clanlocal = ClientCR.Instance.GetClan(tag);
+                        if (clanlocal != null)
                         {
-                            Console.WriteLine($"Clan : {clan.Name}");
+                            Console.WriteLine($"Clan : {clanlocal.Name}");
                             ClientCR.Instance.SetClanTag(tag);
                         }
                         else
                         {
                             Console.Write($"Not exist");
                         }
+                    }
+                }
+                else if (key.KeyChar == '5')
+                {
+                    Console.WriteLine($"wait ...");
+                    var clanlocal = ClientCR.Instance.GetDetailClan();
+                    var cards = ClientCR.Instance.GetCarsUsageTopRanking(clanlocal.Location.Id);
+                    Console.WriteLine($" Card  Usage");
+                    foreach (var card in cards)
+                    {
+                        Console.WriteLine($"{card}");
                     }
                 }
                 else if (key.KeyChar == 'x')
