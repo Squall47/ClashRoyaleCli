@@ -94,6 +94,16 @@ namespace ClashRoyalCli
         #endregion
 
         #region Player
+
+        public List<UpcomingChestsListItemsItem> GetChests(string tag = null)
+        {
+            if (tag == null) tag = ConfigRepo.Config.PlayerTag;
+            using (var client = new CRClient(_uriBaseUrl, _credentials))
+            {
+                return client.GetPlayerUpcomingChests(tag).Items.ToList();
+            }
+        }
+
         public PlayerDetail GetPlayer(string tag = null)
         {
             if (tag == null) tag = ConfigRepo.Config.PlayerTag;
@@ -136,13 +146,13 @@ namespace ClashRoyalCli
             }
         }
 
-        public int GetClanRank(string tag = null)
+        public int GetClanRank(bool local=true, string tag = null)
         {
             if (tag == null) tag = ConfigRepo.Config.ClanTag;
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
                 var clan = client.GetClan(tag);
-                var listClan = GetClansRank(clan.ClanScore.Value - 50, clan.Location.Id);
+                var listClan = GetClansRank(clan.ClanScore.Value - 50, local?clan.Location.Id:null);
                 var posi = 0;
                 foreach (var clantri in listClan)
                 {

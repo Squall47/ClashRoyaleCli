@@ -46,5 +46,10 @@ namespace ClashRoyale.API.Models
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Index.Value.ToString().PadLeft(4)} = {Name}";
+        }
+
     }
 }

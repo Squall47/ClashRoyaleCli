@@ -19,7 +19,7 @@ namespace ClashRoyalCli
 
         public override string ToString()
         {
-            return $"{CardType} \t {MaxLevel}/{Level} \t {(IsMax?Max:NotMax)}\t: {Missing:+0000;-0000} = {Name}";
+            return $"{CardType.PadLeft(8)} {(Level.ToString()+'/'+ MaxLevel.ToString()).PadRight(5)} {(IsMax?Max:NotMax).PadLeft(7)} : {Missing.ToString().PadLeft(5)} = {Name}";
         }
     }
 }

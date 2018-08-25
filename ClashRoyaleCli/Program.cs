@@ -37,7 +37,8 @@ namespace ClashRoyalCli
                 Console.WriteLine("2 - Open tournaments");
                 Console.WriteLine("3 - Completed cards");
                 Console.WriteLine("4 - Missing cards");
-                Console.WriteLine("5 - Usage cards in local top 200 ");
+                Console.WriteLine("5 - Usage cards in local top 200");
+                Console.WriteLine("6 - Next chests");
 
                 Console.WriteLine("9 - Change player and clan");
                 Console.WriteLine("x - End");
@@ -49,8 +50,26 @@ namespace ClashRoyalCli
 
                 if (key.KeyChar == '1')
                 {
-                    var posi = ClientCR.Instance.GetClanRank();
-                    Console.WriteLine($"Rank of your clan is {posi}");
+                    Console.Write($"Local rank (y,n) :");
+                    while (true)
+                    {
+                        var ok = Console.ReadKey();
+                        Console.WriteLine();
+                        if (ok.KeyChar.ToString().ToUpper() == "Y")
+                        {
+                            Console.WriteLine($"Local.....");
+                            var posi = ClientCR.Instance.GetClanRank();
+                            Console.WriteLine($"Local ank of your clan is {posi}");
+                            break;
+                        }
+                        if (ok.KeyChar.ToString().ToUpper() == "N")
+                        {
+                            Console.WriteLine($"General.....");
+                            var posi = ClientCR.Instance.GetClanRank(false);
+                            Console.WriteLine($"General rank of your clan is {posi}");
+                            break;
+                        }
+                    }
                 }
                 else if (key.KeyChar == '2')
                 {
@@ -153,6 +172,15 @@ namespace ClashRoyalCli
                     foreach (var card in cards)
                     {
                         Console.WriteLine($"{card}");
+                    }
+                }
+                else if (key.KeyChar == '6')
+                {
+                    var chests = ClientCR.Instance.GetChests();
+                    Console.WriteLine($" Num   Chest");
+                    foreach (var chest in chests)
+                    {
+                        Console.WriteLine($"{chest}");
                     }
                 }
                 else if (key.KeyChar == 'x')
