@@ -50,7 +50,8 @@ namespace ClashRoyalCli
                 }
                 else if (key.KeyChar == '2')
                 {
-                    var tournements = ClientCR.Instance.GetTournaments().OrderBy(p => p.CreatedTime);
+                    var tournements = ClientCR.Instance.GetTournaments();//.OrderBy(p => p.CreatedTime);
+                    Console.WriteLine($" Open     Places    Status        Name");
                     foreach (var item in tournements)
                     {
                         Console.WriteLine($"{item}");
@@ -61,7 +62,7 @@ namespace ClashRoyalCli
                     var cards = ClientCR.Instance.GetMissingCards().Where(p=>p.Missing >= 0).ToList() ;
                     Console.WriteLine($">> {cards.Count} full collected cards");
                     Console.WriteLine($">> {cards.Where(p=> p.IsMax).Count()} max cards");
-                    Console.WriteLine($"Type \t Max \t Cards \t Name");
+                    Console.WriteLine($" Type    Level   IsMax     Cards   Name");
                     foreach (var cardtype in CardHelper.CardLevel)
                     {
                         foreach (var card in cards.Where(p => p.CardType == cardtype).OrderBy(p => p.Missing))
@@ -73,7 +74,7 @@ namespace ClashRoyalCli
                 else if (key.KeyChar == '4')
                 {
                     var cards = ClientCR.Instance.GetMissingCards();
-                    Console.WriteLine($"Type \t Max \t Cards \t Name");
+                    Console.WriteLine($" Type    Level   IsMax     Cards   Name");
                     foreach (var cardtype in CardHelper.CardLevel)
                     {
                         foreach (var card in cards.Where(p => p.CardType == cardtype && p.Missing < 0).OrderByDescending(p => p.Missing))

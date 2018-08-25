@@ -12,7 +12,7 @@ namespace ClashRoyalCli
     {
         #region Config
         const string BaseUrl = "https://api.clashroyale.com/v1";
-        const string Alphabet = "abcdefghijklmnopqrstuvwxyz";
+        const string Alphabet = "abcdefghijklmnopqrstuvwxyz0123456789#@~-_{([])}|/\\*ç^€%ù¨='?,;.!:";
         private const int MaxItems = 1152;
         private Uri _uriBaseUrl = new Uri(BaseUrl);
         private BearerCredentials _credentials;
@@ -55,6 +55,7 @@ namespace ClashRoyalCli
         #region Tournament
         public IEnumerable<TournamentBaseItemsItem> GetTournaments()
         {
+            var tags = new Dictionary<string, string>();
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
                 foreach(var car1 in Alphabet)
@@ -63,7 +64,13 @@ namespace ClashRoyalCli
                     foreach (var item in tournament.Items)
                     {
                         if (TournamentIsFree(item))
-                            yield return item;
+                        {
+                            if (!tags.ContainsKey(item.Tag))
+                            {
+                                tags.Add(item.Tag, null);
+                                yield return item;
+                            }
+                        }
                     }
                     //foreach (var car2 in Alphabet)
                     //{

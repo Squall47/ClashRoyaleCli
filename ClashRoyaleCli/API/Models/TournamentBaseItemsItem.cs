@@ -104,7 +104,7 @@ namespace ClashRoyale.API.Models
 
         public override string ToString()
         {
-            return $"{CreatedTime.TimeOfDay} : {(MaxCapacity - Capacity):00} >>  {Status} =>  {Name}";
+            return $"{CreatedTime.TimeOfDay} : {(MaxCapacity - Capacity):000} > {Status.PadRight(14)} = {Name}";
         }
 
     }
