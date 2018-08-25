@@ -129,7 +129,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF EXIST  "..\..\..\..\config.json" COPY "..\..\..\..\config.json"  "config.json"</PostBuildEvent>
+    <PostBuildEvent>IF EXIST  "..\..\..\..\config.json" COPY "..\..\..\..\config.json"  "config.json" /Y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
