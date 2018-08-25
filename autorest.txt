@@ -1,0 +1,1 @@
+autorest --csharp --namespace=ClashRoyal.API --input-file=cr-swagger.yaml --override-client-name=CRClient --output-folder=.\ClashRoyaleCli\ClashRoyaleCli\API --add-credentials
