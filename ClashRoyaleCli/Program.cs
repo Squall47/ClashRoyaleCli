@@ -14,6 +14,7 @@ namespace ClashRoyalCli
             {
                 Console.WriteLine("You must complete the config.json file.");
                 Console.WriteLine("Create an account on https://developer.clashroyale.com and genrate a key(token)");
+                Console.ReadKey();
                 return;
             }
             if(!string.IsNullOrEmpty(ConfigRepo.Config.PlayerTag))
