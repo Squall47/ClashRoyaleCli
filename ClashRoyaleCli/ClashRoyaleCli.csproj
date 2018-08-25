@@ -125,9 +125,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="old.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF EXIST  "..\..\..\..\config.json" COPY "..\..\..\..\config.json"  "config.json" /Y</PostBuildEvent>
