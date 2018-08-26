@@ -15,5 +15,6 @@ Clash Royale API Command Line
     - Missing cards
     - Top usage cards into local top players
     - Upcomming chests
+    - Winrate card local top 200
     
     - Change player and clan
