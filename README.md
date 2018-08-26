@@ -12,5 +12,6 @@
     - Completed cards
     - Missing cards
     - Top usage cards into local top players
-    - Change player and clan
     - Upcomming chests
+    
+    - Change player and clan
