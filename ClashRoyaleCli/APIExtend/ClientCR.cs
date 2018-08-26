@@ -77,6 +77,34 @@ namespace ClashRoyalCli.APIExtend
 
         #region Player
 
+        public class WinBattle
+        {
+            public int? Crowns { get; set; }
+            public IList<BattleLogTeamCardsItem> Cards { get; set; }
+        }
+
+        public List<CardUsage> GetCardWins(int? idlocation = null)
+        {
+            var winners = new List<BattleLogTeam>();
+            using (var client = new CRClient(_uriBaseUrl, _credentials))
+            {
+                var players = client.GetPlayerRanking(idlocation?.ToString());
+                foreach (var player in players.Items)
+                {
+                    var battles = client.GetPlayerBattles(player.Tag).Where(p=> p.Type == "PvP");
+                    foreach (var battle in battles)
+                    {
+                        if(battle.Team.First().Crowns > battle.Opponent.First().Crowns)
+                        {
+                            winners.AddRange(battle.Team);
+                        }
+                    }
+                }
+            }
+            var cardsUsage = winners.SelectMany(p => p.Cards).GroupBy(p => p.Name).Select(p => new CardUsage { Name = p.First().Name, UsageCount = p.Count() }).OrderByDescending(p => p.UsageCount).ToList();
+            return cardsUsage;
+        }
+
         public List<UpcomingChestsListItemsItem> GetChests()
         {
             using (var client = new CRClient(_uriBaseUrl, _credentials))
@@ -178,7 +206,7 @@ namespace ClashRoyalCli.APIExtend
         #endregion
 
         #region TopRanking
-        public List<CardUsage> GetCarsUsageTopRanking(int? idlocation = null)
+        public List<CardUsage> GetCarsUsageTopRanking(int? idlocation = null, int nbcardAssociated = 4)
         {
             var playerCards = new List<PlayerDetail>();
             using (var client = new CRClient(_uriBaseUrl, _credentials))
@@ -190,7 +218,12 @@ namespace ClashRoyalCli.APIExtend
                     playerCards.Add(playerDetail);
                 }
             }
-            return playerCards.SelectMany(p => p.CurrentCards).GroupBy(p=> p.Name).Select(p=>new CardUsage { Name = p.First().Name, UsageCount = p.Count() }).OrderByDescending(p=> p.UsageCount).ToList();
+            var cardsUsage = playerCards.SelectMany(p => p.CurrentCards).GroupBy(p=> p.Name).Select(p=>new CardUsage { Name = p.First().Name, UsageCount = p.Count() }).OrderByDescending(p=> p.UsageCount).ToList();
+            foreach (var card in cardsUsage)
+            {
+                card.AssociatedCards = playerCards.Where(p=> p.CurrentCards.Any(c => c.Name == card.Name)).SelectMany(p => p.CurrentCards).Where(p=> p.Name != card.Name).GroupBy(p => p.Name).Select(p => new CardUsage { Name = p.First().Name, UsageCount = p.Count() }).OrderByDescending(p => p.UsageCount).Take(nbcardAssociated).ToList();
+            }
+            return cardsUsage;
         }
         #endregion
     }

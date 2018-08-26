@@ -32,7 +32,7 @@ namespace ClashRoyale.API.Models
             GameMode = gameMode;
             DeckSelection = deckSelection;
             Team = team;
-            Opponent = opponent;
+            //Opponent = opponent;
             CustomInit();
         }
 
@@ -66,13 +66,13 @@ namespace ClashRoyale.API.Models
         [JsonProperty(PropertyName = "deckSelection")]
         public string DeckSelection { get; set; }
 
-        /// <summary>
-        /// </summary>
+        ///// <summary>
+        ///// </summary>
         [JsonProperty(PropertyName = "team")]
         public IList<BattleLogTeam> Team { get; set; }
 
-        /// <summary>
-        /// </summary>
+        ///// <summary>
+        ///// </summary>
         [JsonProperty(PropertyName = "opponent")]
         public IList<BattleLogTeam> Opponent { get; set; }
 

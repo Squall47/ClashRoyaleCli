@@ -38,6 +38,7 @@ namespace ClashRoyalCli
                 Console.WriteLine("4 - Missing cards");
                 Console.WriteLine("5 - Usage cards in local top 200");
                 Console.WriteLine("6 - Upcomming chests");
+                Console.WriteLine("7 - Winrate card local top 200");
 
                 Console.WriteLine("9 - Change player and clan");
                 Console.WriteLine("x - End");
@@ -170,10 +171,19 @@ namespace ClashRoyalCli
                     Console.WriteLine($"wait ...");
                     var clanlocal = client.GetDetailClan();
                     var cards = client.GetCarsUsageTopRanking(clanlocal.Location.Id);
-                    Console.WriteLine($" Card  Usage");
+                    Console.WriteLine($"       Card  Usage");
+                    var i = 1;
+                    var usage = 100000;
                     foreach (var card in cards)
                     {
-                        Console.WriteLine($"{card}");
+                        var posi = "   ";
+                        if (usage != card.UsageCount)
+                        {
+                            posi = i.ToString().PadLeft(3);
+                            i++;
+                        }
+                        Console.WriteLine($"{posi} : {card}");
+                        usage = card.UsageCount;
                     }
                 }
                 else if (key.KeyChar == '6')
@@ -183,6 +193,17 @@ namespace ClashRoyalCli
                     foreach (var chest in chests)
                     {
                         Console.WriteLine($"{chest}");
+                    }
+                }
+                else if (key.KeyChar == '7')
+                {
+                    Console.WriteLine($"wait ...");
+                    var clanlocal = client.GetDetailClan();
+                    var cards = client.GetCardWins(clanlocal.Location.Id);
+                    Console.WriteLine($"  Wins   Card");
+                    foreach (var card in cards)
+                    {
+                        Console.WriteLine($"{card}");
                     }
                 }
                 else if (key.KeyChar == 'x')
