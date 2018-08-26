@@ -1,5 +1,7 @@
 # ClashRoyaleCli
 
+Clash Royale API Command Line
+
 - You must complete the file config.json
     - create account https://developer.clashroyale.com
     - generate key (token) 
