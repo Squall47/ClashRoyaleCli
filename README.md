@@ -13,3 +13,4 @@
     - Missing cards
     - Top usage cards into local top players
     - Change player and clan
+    - Upcomming chests
