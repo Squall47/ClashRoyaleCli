@@ -16,39 +16,30 @@ namespace ClashRoyalCli
         private const int MaxItems = 1152;
         private Uri _uriBaseUrl = new Uri(BaseUrl);
         private BearerCredentials _credentials;
+        public CRConfig Config { get; }
+        public PlayerDetail Player { get; private set; }
+        public Clan Clan { get; private set; }
 
-        public static ClientCR Instance => new ClientCR();
-
-        public ClientCR()
+        public ClientCR(CRConfig config)
         {
-            ConfigRepo.Load();
-            _credentials = new BearerCredentials(ConfigRepo.Config.Token);
-        }
-
-        public bool NotConfigure()
-        {
-            return string.IsNullOrEmpty(ConfigRepo.Config.Token);
-        }
-
-        public void SetToken(string token)
-        {
-            ConfigRepo.Config.Token = token;
-            _credentials = new BearerCredentials(ConfigRepo.Config.Token);
-            ConfigRepo.Save();
+            Config = config;
+            _credentials = new BearerCredentials(Config.Token);
+            Player = GetPlayer();
+            Clan = GetClan();
         }
 
         public void SetClanTag(string tag)
         {
             if (!tag.StartsWith("#")) tag = "#" + tag;
-            ConfigRepo.Config.ClanTag = tag;
-            ConfigRepo.Save();
+            Config.ClanTag = tag;
+            Clan = GetClan();
         }
 
         public void SetPlayertag(string tag)
         {
             if (!tag.StartsWith("#")) tag = "#" + tag;
-            ConfigRepo.Config.PlayerTag = tag;
-            ConfigRepo.Save();
+            Config.PlayerTag = tag;
+            Player = GetPlayer();
         }
         #endregion
 
@@ -72,22 +63,12 @@ namespace ClashRoyalCli
                             }
                         }
                     }
-                    //foreach (var car2 in Alphabet)
-                    //{
-                    //    tournament = client.SearchTournaments($"{car1}{car2}");
-                    //    foreach (var item in tournament.Items)
-                    //    {
-                    //        if (TournamentIsFree(item))
-                    //            yield return item;
-                    //    }
-                    //}
                 }
             }
         }
 
         private static bool TournamentIsFree(TournamentBaseItemsItem item)
         {
-            //var test =  DateTime.Now.Subtract(item.CreatedTime).TotalMinutes;
             return (item.Type != "passwordProtected" && item.MaxCapacity - item.Capacity > 0);
                 //|| (item.Status != "inProgress" && item.Type != "passwordProtected" && /*DateTime.Now.Subtract(item.CreatedTime).TotalMinutes > 20 && */item.MaxCapacity - item.Capacity > 0);
         }
@@ -95,18 +76,17 @@ namespace ClashRoyalCli
 
         #region Player
 
-        public List<UpcomingChestsListItemsItem> GetChests(string tag = null)
+        public List<UpcomingChestsListItemsItem> GetChests()
         {
-            if (tag == null) tag = ConfigRepo.Config.PlayerTag;
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
-                return client.GetPlayerUpcomingChests(tag).Items.ToList();
+                return client.GetPlayerUpcomingChests(Config.PlayerTag).Items.ToList();
             }
         }
 
         public PlayerDetail GetPlayer(string tag = null)
         {
-            if (tag == null) tag = ConfigRepo.Config.PlayerTag;
+            tag = (tag == null)?Config.PlayerTag: (!tag.StartsWith("#"))? $"#{tag}":tag;
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
                 return client.GetPlayer(tag);
@@ -115,9 +95,8 @@ namespace ClashRoyalCli
 
         public List<MissingCard> GetMissingCards()
         {
-            var player = Instance.GetPlayer();
             var missingCards = new List<MissingCard>();
-            foreach (var card in player.Cards)
+            foreach (var card in Player.Cards)
             {
                 missingCards.Add(new MissingCard(card));
             }
@@ -129,35 +108,32 @@ namespace ClashRoyalCli
         #region Clan
         public Clan GetClan(string tag = null)
         {
+            tag = (tag == null) ? Config.ClanTag : (!tag.StartsWith("#")) ? $"#{tag}" : tag;
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
                 return client.GetClan(tag);
             }
         }
 
-        public SearchResultClan GetDetailClan(string tag = null)
+        public SearchResultClan GetDetailClan()
         {
-            if (tag == null) tag = ConfigRepo.Config.ClanTag;
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
-                var clan = GetClan(tag);
-                var clans = client.SearchClans(clan.Name);
-                return clans.Items.FirstOrDefault(p => p.Tag == clan.Tag);
+                var clans = client.SearchClans(Clan.Name);
+                return clans.Items.FirstOrDefault(p => p.Tag == Clan.Tag);
             }
         }
 
-        public int GetClanRank(bool local=true, string tag = null)
+        public int GetClanRank(bool local=true)
         {
-            if (tag == null) tag = ConfigRepo.Config.ClanTag;
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
-                var clan = client.GetClan(tag);
-                var listClan = GetClansRank(clan.ClanScore.Value - 50, local?clan.Location.Id:null);
+                var listClan = GetClansRank(Clan.ClanScore.Value - 50, local?Clan.Location.Id:null);
                 var posi = 0;
                 foreach (var clantri in listClan)
                 {
                     posi++;
-                    if (clantri.Tag == clan.Tag) break;
+                    if (clantri.Tag == Clan.Tag) break;
                 }
                 return posi;
             }

@@ -11,24 +11,22 @@ namespace ClashRoyalCli
 
         static void Main(string[] args)
         {
-            PlayerDetail player;
-            Clan clan;
-            if (ClientCR.Instance.NotConfigure())
+            if (ConfigRepo.NotConfigure())
             {
                 Console.WriteLine("You must complete the config.json file.");
                 Console.WriteLine("Create an account on https://developer.clashroyale.com and genrate a key(token)");
                 Console.ReadKey();
                 return;
             }
-            if(!string.IsNullOrEmpty(ConfigRepo.Config.PlayerTag))
+            ClientCR client = new ClientCR(ConfigRepo.Config);
+
+            if (client.Player != null)
             {
-                player = ClientCR.Instance.GetPlayer(ConfigRepo.Config.PlayerTag);
-                Console.WriteLine($"Player : {player}");
+                Console.WriteLine($"Player : {client.Player}");
             }
-            if (!string.IsNullOrEmpty(ConfigRepo.Config.ClanTag))
+            if (client.Clan != null)
             {
-                clan = ClientCR.Instance.GetClan(ConfigRepo.Config.ClanTag);
-                Console.WriteLine($"Clan   : {clan}");
+                Console.WriteLine($"Clan   : {client.Clan}");
             }
             Console.WriteLine();
             while (true)
@@ -58,14 +56,14 @@ namespace ClashRoyalCli
                         if (ok.KeyChar.ToString().ToUpper() == "Y")
                         {
                             Console.WriteLine($"Local.....");
-                            var posi = ClientCR.Instance.GetClanRank();
+                            var posi = client.GetClanRank();
                             Console.WriteLine($"Local ank of your clan is {posi}");
                             break;
                         }
                         if (ok.KeyChar.ToString().ToUpper() == "N")
                         {
                             Console.WriteLine($"General.....");
-                            var posi = ClientCR.Instance.GetClanRank(false);
+                            var posi = client.GetClanRank(false);
                             Console.WriteLine($"General rank of your clan is {posi}");
                             break;
                         }
@@ -73,7 +71,7 @@ namespace ClashRoyalCli
                 }
                 else if (key.KeyChar == '2')
                 {
-                    var tournements = ClientCR.Instance.GetTournaments();//.OrderBy(p => p.CreatedTime);
+                    var tournements = client.GetTournaments();//.OrderBy(p => p.CreatedTime);
                     Console.WriteLine($" Open     Places    Status        Name");
                     foreach (var item in tournements)
                     {
@@ -82,7 +80,7 @@ namespace ClashRoyalCli
                 }
                 else if (key.KeyChar == '3')
                 {
-                    var cards = ClientCR.Instance.GetMissingCards().Where(p=>p.Missing >= 0).ToList() ;
+                    var cards = client.GetMissingCards().Where(p=>p.Missing >= 0).ToList() ;
                     Console.WriteLine($">> {cards.Count} full collected cards");
                     Console.WriteLine($">> {cards.Where(p=> p.IsMax).Count()} max cards");
                     Console.WriteLine($" Type    Level   IsMax     Cards   Name");
@@ -96,7 +94,7 @@ namespace ClashRoyalCli
                 }
                 else if (key.KeyChar == '4')
                 {
-                    var cards = ClientCR.Instance.GetMissingCards();
+                    var cards = client.GetMissingCards();
                     Console.WriteLine($" Type    Level   IsMax     Cards   Name");
                     foreach (var cardtype in CardHelper.CardLevel)
                     {
@@ -122,11 +120,12 @@ namespace ClashRoyalCli
                         Console.Write($"Player tag :");
                         var tag = Console.ReadLine();
                         if (!tag.StartsWith("#")) tag = "#" + tag;
-                        var playerlocal = ClientCR.Instance.GetPlayer(tag);
+                        var playerlocal = client.GetPlayer(tag);
                         if (playerlocal != null)
                         {
                             Console.WriteLine($"Player : {playerlocal.Name}");
-                            ClientCR.Instance.SetPlayertag(playerlocal.Tag);
+                            client.SetPlayertag(playerlocal.Tag);
+                            ConfigRepo.SetPlayertag(playerlocal.Tag);
                             Console.Write($"Change clan (y,n) :");
                             while (true)
                             {
@@ -135,7 +134,8 @@ namespace ClashRoyalCli
                                 if (ok.KeyChar.ToString().ToUpper() == "Y")
                                 {
                                     Console.WriteLine($"Clan : {playerlocal.Clan.Name}");
-                                    ClientCR.Instance.SetClanTag(playerlocal.Clan.Tag);
+                                    client.SetClanTag(playerlocal.Clan.Tag);
+                                    ConfigRepo.SetClanTag(playerlocal.Clan.Tag);
                                     break;
                                 }
                                 if (ok.KeyChar.ToString().ToUpper() == "N") break;
@@ -151,11 +151,12 @@ namespace ClashRoyalCli
                         Console.Write($"Clan tag :");
                         var tag = Console.ReadLine();
                         if (!tag.StartsWith("#")) tag = "#" + tag;
-                        var clanlocal = ClientCR.Instance.GetClan(tag);
+                        var clanlocal = client.GetClan(tag);
                         if (clanlocal != null)
                         {
                             Console.WriteLine($"Clan : {clanlocal.Name}");
-                            ClientCR.Instance.SetClanTag(tag);
+                            client.SetClanTag(tag);
+                            ConfigRepo.SetClanTag(tag);
                         }
                         else
                         {
@@ -166,8 +167,8 @@ namespace ClashRoyalCli
                 else if (key.KeyChar == '5')
                 {
                     Console.WriteLine($"wait ...");
-                    var clanlocal = ClientCR.Instance.GetDetailClan();
-                    var cards = ClientCR.Instance.GetCarsUsageTopRanking(clanlocal.Location.Id);
+                    var clanlocal = client.GetDetailClan();
+                    var cards = client.GetCarsUsageTopRanking(clanlocal.Location.Id);
                     Console.WriteLine($" Card  Usage");
                     foreach (var card in cards)
                     {
@@ -176,7 +177,7 @@ namespace ClashRoyalCli
                 }
                 else if (key.KeyChar == '6')
                 {
-                    var chests = ClientCR.Instance.GetChests();
+                    var chests = client.GetChests();
                     Console.WriteLine($" Num   Chest");
                     foreach (var chest in chests)
                     {
