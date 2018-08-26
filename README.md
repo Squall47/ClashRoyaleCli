@@ -4,7 +4,7 @@
     - create account https://developer.clashroyale.com
     - generate key (token) 
     - add your public ip
-    - complete file config.json with token and tag clan
+    - complete file config.json with token and tag clan and player tag ( start with # )
 
 - Functions :
     - Rank of your clan
