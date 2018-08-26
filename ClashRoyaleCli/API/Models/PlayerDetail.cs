@@ -24,7 +24,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the PlayerDetail class.
         /// </summary>
-        public PlayerDetail(string tag = default(string), string name = default(string), int? expLevel = default(int?), int? trophies = default(int?), Arena arena = default(Arena), int? bestTrophies = default(int?), int? wins = default(int?), int? losses = default(int?), int? battleCount = default(int?), int? threeCrownWins = default(int?), int? challengeCardsWon = default(int?), int? challengeMaxWins = default(int?), int? tournamentCardsWon = default(int?), int? tournamentBattleCount = default(int?), string role = default(string), int? donations = default(int?), int? donationsReceived = default(int?), int? totalDonations = default(int?), int? warDayWins = default(int?), int? clanCardsCollected = default(int?), ClanBase clan = default(ClanBase), PlayerDetailLeagueStatistics leagueStatistics = default(PlayerDetailLeagueStatistics), IList<PlayerDetailAchievementsItem> achievements = default(IList<PlayerDetailAchievementsItem>), IList<PlayerDetailCardsItem> cards = default(IList<PlayerDetailCardsItem>), PlayerDetailCurrentFavouriteCard currentFavouriteCard = default(PlayerDetailCurrentFavouriteCard))
+        public PlayerDetail(string tag = default(string), string name = default(string), int? expLevel = default(int?), int? trophies = default(int?), Arena arena = default(Arena), int? bestTrophies = default(int?), int? wins = default(int?), int? losses = default(int?), int? battleCount = default(int?), int? threeCrownWins = default(int?), int? challengeCardsWon = default(int?), int? challengeMaxWins = default(int?), int? tournamentCardsWon = default(int?), int? tournamentBattleCount = default(int?), string role = default(string), int? donations = default(int?), int? donationsReceived = default(int?), int? totalDonations = default(int?), int? warDayWins = default(int?), int? clanCardsCollected = default(int?), ClanBase clan = default(ClanBase), PlayerDetailLeagueStatistics leagueStatistics = default(PlayerDetailLeagueStatistics), IList<PlayerDetailAchievement> achievements = default(IList<PlayerDetailAchievement>), IList<CardPlayer> cards = default(IList<CardPlayer>), CardBase currentFavouriteCard = default(CardBase))
             : base(tag, name, expLevel, trophies, arena)
         {
             BestTrophies = bestTrophies;
@@ -143,24 +143,24 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "achievements")]
-        public IList<PlayerDetailAchievementsItem> Achievements { get; set; }
+        public IList<PlayerDetailAchievement> Achievements { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "cards")]
-        public IList<PlayerDetailCardsItem> Cards { get; set; }
+        public IList<CardPlayer> Cards { get; set; }
 
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "currentDeck")]
-        public IList<PlayerDetailCardsItem> CurrentCards { get; set; }
+        public IList<CardPlayer> CurrentCards { get; set; }
         
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "currentFavouriteCard")]
-        public PlayerDetailCurrentFavouriteCard CurrentFavouriteCard { get; set; }
+        public CardBase CurrentFavouriteCard { get; set; }
 
         public override string ToString()
         {

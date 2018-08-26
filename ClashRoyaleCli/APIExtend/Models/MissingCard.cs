@@ -2,11 +2,11 @@
 
 namespace ClashRoyalCli.APIExtend.Models
 {
-    public class MissingCard : PlayerDetailCardsItem
+    public class MissingCard : CardPlayer
     {
         const string Max = "Max";
         const string NotMax = "NotMax";
-        public MissingCard(PlayerDetailCardsItem card) : base(card.Name, card.Level, card.MaxLevel, card.Count, card.IconUrls)
+        public MissingCard(CardPlayer card) : base(card.Name, card.Level, card.MaxLevel, card.Count, card.IconUrls)
         {
             Missing = CardHelper.MissingCards(card);
             CardType = CardHelper.CardType(card);

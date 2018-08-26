@@ -9,25 +9,24 @@ namespace ClashRoyale.API.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class PlayerDetailCardsItem
+    public partial class CardBase
     {
         /// <summary>
-        /// Initializes a new instance of the PlayerDetailCardsItem class.
+        /// Initializes a new instance of the CardListItemsItem class.
         /// </summary>
-        public PlayerDetailCardsItem()
+        public CardBase()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the PlayerDetailCardsItem class.
+        /// Initializes a new instance of the CardListItemsItem class.
         /// </summary>
-        public PlayerDetailCardsItem(string name = default(string), int? level = default(int?), int? maxLevel = default(int?), int? count = default(int?), PlayerDetailCardsItemIconUrls iconUrls = default(PlayerDetailCardsItemIconUrls))
+        public CardBase(string name = default(string), int? id = default(int?), int? maxLevel = default(int?), CardIconUrls iconUrls = default(CardIconUrls))
         {
             Name = name;
-            Level = level;
+            Id = id;
             MaxLevel = maxLevel;
-            Count = count;
             IconUrls = iconUrls;
             CustomInit();
         }
@@ -44,8 +43,8 @@ namespace ClashRoyale.API.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "level")]
-        public int? Level { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public int? Id { get; set; }
 
         /// <summary>
         /// </summary>
@@ -54,18 +53,8 @@ namespace ClashRoyale.API.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "count")]
-        public int? Count { get; set; }
-
-        /// <summary>
-        /// </summary>
         [JsonProperty(PropertyName = "iconUrls")]
-        public PlayerDetailCardsItemIconUrls IconUrls { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Name}={Level}";
-        }
+        public CardIconUrls IconUrls { get; set; }
 
     }
 }

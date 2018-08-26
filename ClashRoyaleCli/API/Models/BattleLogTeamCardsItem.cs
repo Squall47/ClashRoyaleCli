@@ -24,7 +24,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the BattleLogTeamCardsItem class.
         /// </summary>
-        public BattleLogTeamCardsItem(string name = default(string), int? level = default(int?), int? maxLevel = default(int?), BattleLogTeamCardsItemIconUrlsItem iconUrls = default(BattleLogTeamCardsItemIconUrlsItem))
+        public BattleLogTeamCardsItem(string name = default(string), int? level = default(int?), int? maxLevel = default(int?), CardIconUrls iconUrls = default(CardIconUrls))
         {
             Name = name;
             Level = level;
@@ -56,7 +56,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "iconUrls")]
-        public BattleLogTeamCardsItemIconUrlsItem IconUrls { get; set; }
+        public CardIconUrls IconUrls { get; set; }
 
     }
 }

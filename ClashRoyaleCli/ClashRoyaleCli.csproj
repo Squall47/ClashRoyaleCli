@@ -64,10 +64,9 @@
     <Compile Include="API\Models\BattleLogItemGameMode.cs" />
     <Compile Include="API\Models\BattleLogTeam.cs" />
     <Compile Include="API\Models\BattleLogTeamCardsItem.cs" />
-    <Compile Include="API\Models\BattleLogTeamCardsItemIconUrlsItem.cs" />
     <Compile Include="API\Models\CardList.cs" />
-    <Compile Include="API\Models\CardListItemsItem.cs" />
-    <Compile Include="API\Models\CardListItemsItemIconUrls.cs" />
+    <Compile Include="API\Models\CardBase.cs" />
+    <Compile Include="API\Models\CardIconUrls.cs" />
     <Compile Include="API\Models\Clan.cs" />
     <Compile Include="API\Models\ClanBase.cs" />
     <Compile Include="API\Models\ClanMember.cs" />
@@ -76,7 +75,7 @@
     <Compile Include="API\Models\ClanRankingListItemsItem.cs" />
     <Compile Include="API\Models\ClanSearchResult.cs" />
     <Compile Include="API\Models\ClanWarsRankingList.cs" />
-    <Compile Include="API\Models\ClanWarsRankingListItemsItem.cs" />
+    <Compile Include="API\Models\ClanWarsRanking.cs" />
     <Compile Include="API\Models\CurrentWar.cs" />
     <Compile Include="API\Models\CurrentWarClan.cs" />
     <Compile Include="API\Models\Error.cs" />
@@ -85,13 +84,10 @@
     <Compile Include="API\Models\PlayerBase.cs" />
     <Compile Include="API\Models\PlayerDetail.cs" />
     <Compile Include="API\Models\PlayerDetailAchievementsItem.cs" />
-    <Compile Include="API\Models\PlayerDetailCardsItem.cs" />
-    <Compile Include="API\Models\PlayerDetailCardsItemIconUrls.cs" />
-    <Compile Include="API\Models\PlayerDetailCurrentFavouriteCard.cs" />
-    <Compile Include="API\Models\PlayerDetailCurrentFavouriteCardIconUrls.cs" />
+    <Compile Include="API\Models\CardPlayer.cs" />
     <Compile Include="API\Models\PlayerDetailLeagueStatistics.cs" />
     <Compile Include="API\Models\PlayerRankingList.cs" />
-    <Compile Include="API\Models\PlayerRankingListItemsItem.cs" />
+    <Compile Include="API\Models\PlayerRanking.cs" />
     <Compile Include="API\Models\SearchResultClan.cs" />
     <Compile Include="API\Models\SeasonStatistics.cs" />
     <Compile Include="API\Models\Tournament.cs" />

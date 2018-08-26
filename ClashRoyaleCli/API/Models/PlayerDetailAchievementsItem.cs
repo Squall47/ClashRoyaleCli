@@ -9,13 +9,13 @@ namespace ClashRoyale.API.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class PlayerDetailAchievementsItem
+    public partial class PlayerDetailAchievement
     {
         /// <summary>
         /// Initializes a new instance of the PlayerDetailAchievementsItem
         /// class.
         /// </summary>
-        public PlayerDetailAchievementsItem()
+        public PlayerDetailAchievement()
         {
             CustomInit();
         }
@@ -24,7 +24,7 @@ namespace ClashRoyale.API.Models
         /// Initializes a new instance of the PlayerDetailAchievementsItem
         /// class.
         /// </summary>
-        public PlayerDetailAchievementsItem(string name = default(string), int? stars = default(int?), int? value = default(int?), int? target = default(int?), string info = default(string))
+        public PlayerDetailAchievement(string name = default(string), int? stars = default(int?), int? value = default(int?), int? target = default(int?), string info = default(string))
         {
             Name = name;
             Stars = stars;

@@ -9,22 +9,20 @@ namespace ClashRoyale.API.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class BattleLogTeamCardsItemIconUrlsItem
+    public partial class CardIconUrls
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// BattleLogTeamCardsItemIconUrlsItem class.
+        /// Initializes a new instance of the CardListItemsItemIconUrls class.
         /// </summary>
-        public BattleLogTeamCardsItemIconUrlsItem()
+        public CardIconUrls()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// BattleLogTeamCardsItemIconUrlsItem class.
+        /// Initializes a new instance of the CardListItemsItemIconUrls class.
         /// </summary>
-        public BattleLogTeamCardsItemIconUrlsItem(string medium = default(string))
+        public CardIconUrls(string medium = default(string))
         {
             Medium = medium;
             CustomInit();

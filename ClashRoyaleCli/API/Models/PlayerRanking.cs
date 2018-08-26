@@ -9,12 +9,12 @@ namespace ClashRoyale.API.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class PlayerRankingListItemsItem
+    public partial class PlayerRanking : PlayerBase
     {
         /// <summary>
         /// Initializes a new instance of the PlayerRankingListItemsItem class.
         /// </summary>
-        public PlayerRankingListItemsItem()
+        public PlayerRanking()
         {
             CustomInit();
         }
@@ -22,16 +22,14 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the PlayerRankingListItemsItem class.
         /// </summary>
-        public PlayerRankingListItemsItem(string tag = default(string), string name = default(string), int? expLevel = default(int?), int? trophies = default(int?), int? rank = default(int?), int? previousRank = default(int?), ClanBase clan = default(ClanBase), Arena arena = default(Arena))
+        public PlayerRanking(string tag = default(string), string name = default(string), int? expLevel = default(int?), int? trophies = default(int?), int? rank = default(int?), int? previousRank = default(int?), ClanBase clan = default(ClanBase), Arena arena = default(Arena))
+            : base(tag, name, expLevel, trophies, arena)
         {
-            Tag = tag;
-            Name = name;
             ExpLevel = expLevel;
             Trophies = trophies;
             Rank = rank;
             PreviousRank = previousRank;
             Clan = clan;
-            Arena = arena;
             CustomInit();
         }
 
@@ -39,26 +37,6 @@ namespace ClashRoyale.API.Models
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "tag")]
-        public string Tag { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "expLevel")]
-        public int? ExpLevel { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "trophies")]
-        public int? Trophies { get; set; }
 
         /// <summary>
         /// </summary>
@@ -74,11 +52,5 @@ namespace ClashRoyale.API.Models
         /// </summary>
         [JsonProperty(PropertyName = "clan")]
         public ClanBase Clan { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "arena")]
-        public Arena Arena { get; set; }
-
     }
 }

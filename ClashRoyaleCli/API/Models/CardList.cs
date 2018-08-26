@@ -24,7 +24,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the CardList class.
         /// </summary>
-        public CardList(IList<CardListItemsItem> items = default(IList<CardListItemsItem>))
+        public CardList(IList<CardBase> items = default(IList<CardBase>))
         {
             Items = items;
             CustomInit();
@@ -38,7 +38,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "items")]
-        public IList<CardListItemsItem> Items { get; set; }
+        public IList<CardBase> Items { get; set; }
 
     }
 }

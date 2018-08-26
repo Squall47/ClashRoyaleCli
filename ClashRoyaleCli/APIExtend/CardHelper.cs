@@ -8,7 +8,7 @@ namespace ClashRoyalCli.APIExtend
 
         public static string[] CardLevel = new string[] { "Commun" , "Rare" , "Epic" , "Legend" };
 
-        public static int MissingCards(PlayerDetailCardsItem card)
+        public static int MissingCards(CardPlayer card)
         {
             var nbCardsCollect = 0;
             for (int i = card.Level.Value; i < card.MaxLevel; i++)
@@ -20,7 +20,7 @@ namespace ClashRoyalCli.APIExtend
             return nbCardsCollect * -1;
         }
 
-        public static string CardType(PlayerDetailCardsItem card)
+        public static string CardType(CardPlayer card)
         {
             switch (card.MaxLevel)
             {
