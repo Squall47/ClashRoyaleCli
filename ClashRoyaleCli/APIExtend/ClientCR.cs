@@ -4,8 +4,9 @@ using System.Linq;
 using System.Collections.Generic;
 using ClashRoyale.API.Models;
 using System.Globalization;
+using ClashRoyalCli.APIExtend.Models;
 
-namespace ClashRoyalCli
+namespace ClashRoyalCli.APIExtend
 {
 
     public class ClientCR

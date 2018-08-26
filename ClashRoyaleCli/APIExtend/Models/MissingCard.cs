@@ -1,6 +1,6 @@
 ﻿using ClashRoyale.API.Models;
 
-namespace ClashRoyalCli
+namespace ClashRoyalCli.APIExtend.Models
 {
     public class MissingCard : PlayerDetailCardsItem
     {

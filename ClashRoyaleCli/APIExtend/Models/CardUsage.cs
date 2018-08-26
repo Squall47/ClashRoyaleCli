@@ -1,4 +1,4 @@
-﻿namespace ClashRoyalCli
+﻿namespace ClashRoyalCli.APIExtend.Models
 {
     public class CardUsage
     {

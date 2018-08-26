@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using ClashRoyalCli.APIExtend;
+using ClashRoyalCli.APIExtend.Models;
 using Newtonsoft.Json;
 
 namespace ClashRoyalCli

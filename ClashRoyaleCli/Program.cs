@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using ClashRoyale.API.Models;
+using ClashRoyalCli.APIExtend;
 
 namespace ClashRoyalCli
 {
@@ -36,7 +37,7 @@ namespace ClashRoyalCli
                 Console.WriteLine("3 - Completed cards");
                 Console.WriteLine("4 - Missing cards");
                 Console.WriteLine("5 - Usage cards in local top 200");
-                Console.WriteLine("6 - Next chests");
+                Console.WriteLine("6 - Upcomming chests");
 
                 Console.WriteLine("9 - Change player and clan");
                 Console.WriteLine("x - End");

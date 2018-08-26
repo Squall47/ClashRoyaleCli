@@ -106,15 +106,14 @@
     <Compile Include="API\Models\WarLog.cs" />
     <Compile Include="API\Models\WarLogItemsItem.cs" />
     <Compile Include="API\Models\WarParticipant.cs" />
-    <Compile Include="BearerCredentials.cs" />
-    <Compile Include="CardHelper.cs" />
-    <Compile Include="CardUsage.cs" />
-    <Compile Include="ClientCR.cs" />
+    <Compile Include="APIExtend\BearerCredentials.cs" />
+    <Compile Include="APIExtend\CardHelper.cs" />
+    <Compile Include="APIExtend\Models\CardUsage.cs" />
+    <Compile Include="APIExtend\ClientCR.cs" />
     <Compile Include="ConfigRepo.cs" />
-    <Compile Include="CRConfig.cs" />
-    <Compile Include="DateConverter.cs" />
-    <Compile Include="DateFormatConverter.cs" />
-    <Compile Include="MissingCard.cs" />
+    <Compile Include="APIExtend\Models\CRConfig.cs" />
+    <Compile Include="APIExtend\DateConverter.cs" />
+    <Compile Include="APIExtend\Models\MissingCard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
