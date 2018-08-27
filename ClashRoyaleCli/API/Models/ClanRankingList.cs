@@ -24,7 +24,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the ClanRankingList class.
         /// </summary>
-        public ClanRankingList(IList<ClanRankingListItemsItem> items = default(IList<ClanRankingListItemsItem>))
+        public ClanRankingList(IList<ClanRanking> items = default(IList<ClanRanking>))
         {
             Items = items;
             CustomInit();
@@ -38,7 +38,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "items")]
-        public IList<ClanRankingListItemsItem> Items { get; set; }
+        public IList<ClanRanking> Items { get; set; }
 
     }
 }

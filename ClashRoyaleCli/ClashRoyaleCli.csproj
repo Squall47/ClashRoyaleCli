@@ -63,7 +63,7 @@
     <Compile Include="API\Models\BattleLogItem.cs" />
     <Compile Include="API\Models\BattleLogItemGameMode.cs" />
     <Compile Include="API\Models\BattleLogTeam.cs" />
-    <Compile Include="API\Models\BattleLogTeamCardsItem.cs" />
+    <Compile Include="API\Models\CardBattleLog.cs" />
     <Compile Include="API\Models\CardList.cs" />
     <Compile Include="API\Models\CardBase.cs" />
     <Compile Include="API\Models\CardIconUrls.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="API\Models\ClanMember.cs" />
     <Compile Include="API\Models\ClanMemberList.cs" />
     <Compile Include="API\Models\ClanRankingList.cs" />
-    <Compile Include="API\Models\ClanRankingListItemsItem.cs" />
+    <Compile Include="API\Models\ClanRanking.cs" />
     <Compile Include="API\Models\ClanSearchResult.cs" />
     <Compile Include="API\Models\ClanWarsRankingList.cs" />
     <Compile Include="API\Models\ClanWarsRanking.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="API\Models\LocationList.cs" />
     <Compile Include="API\Models\PlayerBase.cs" />
     <Compile Include="API\Models\PlayerDetail.cs" />
-    <Compile Include="API\Models\PlayerDetailAchievementsItem.cs" />
+    <Compile Include="API\Models\PlayerDetailAchievement.cs" />
     <Compile Include="API\Models\CardPlayer.cs" />
     <Compile Include="API\Models\PlayerDetailLeagueStatistics.cs" />
     <Compile Include="API\Models\PlayerRankingList.cs" />
@@ -106,12 +106,17 @@
     <Compile Include="APIExtend\CardHelper.cs" />
     <Compile Include="APIExtend\Models\CardUsage.cs" />
     <Compile Include="APIExtend\ClientCR.cs" />
+    <Compile Include="ChoiceDetail.cs" />
     <Compile Include="ConfigRepo.cs" />
     <Compile Include="APIExtend\Models\CRConfig.cs" />
     <Compile Include="APIExtend\DateConverter.cs" />
     <Compile Include="APIExtend\Models\MissingCard.cs" />
+    <Compile Include="Console.cs" />
+    <Compile Include="ConsoleChoice.cs" />
+    <Compile Include="DebugTracer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tabulate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

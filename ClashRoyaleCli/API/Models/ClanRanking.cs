@@ -9,12 +9,12 @@ namespace ClashRoyale.API.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class ClanRankingListItemsItem
+    public partial class ClanRanking
     {
         /// <summary>
         /// Initializes a new instance of the ClanRankingListItemsItem class.
         /// </summary>
-        public ClanRankingListItemsItem()
+        public ClanRanking()
         {
             CustomInit();
         }
@@ -22,7 +22,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the ClanRankingListItemsItem class.
         /// </summary>
-        public ClanRankingListItemsItem(string tag = default(string), string name = default(string), int? rank = default(int?), int? previousRank = default(int?), Location location = default(Location), int? clanScore = default(int?), int? badgeId = default(int?), int? members = default(int?))
+        public ClanRanking(string tag = default(string), string name = default(string), int? rank = default(int?), int? previousRank = default(int?), Location location = default(Location), int? clanScore = default(int?), int? badgeId = default(int?), int? members = default(int?))
         {
             Tag = tag;
             Name = name;

@@ -86,6 +86,14 @@ namespace ClashRoyale.API.Models
         [JsonProperty(PropertyName = "maxCapacity")]
         public int? MaxCapacity { get; set; }
 
+        public int? Places
+        {
+            get
+            {
+                return MaxCapacity - Capacity;
+            }
+        }
+
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "preparationDuration")]

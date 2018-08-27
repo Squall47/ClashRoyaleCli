@@ -11,12 +11,12 @@ namespace ClashRoyale.API.Models
     using System.Collections.Generic;
     using System.Linq;
 
-    public partial class BattleLogTeamCardsItem
+    public partial class CardBattleLog : CardBase
     {
         /// <summary>
         /// Initializes a new instance of the BattleLogTeamCardsItem class.
         /// </summary>
-        public BattleLogTeamCardsItem()
+        public CardBattleLog()
         {
             CustomInit();
         }
@@ -24,12 +24,10 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the BattleLogTeamCardsItem class.
         /// </summary>
-        public BattleLogTeamCardsItem(string name = default(string), int? level = default(int?), int? maxLevel = default(int?), CardIconUrls iconUrls = default(CardIconUrls))
+        public CardBattleLog(string name = default(string), int? level = default(int?), int? maxLevel = default(int?), CardIconUrls iconUrls = default(CardIconUrls))
+            : base(name, null, maxLevel, iconUrls)
         {
-            Name = name;
             Level = level;
-            MaxLevel = maxLevel;
-            IconUrls = iconUrls;
             CustomInit();
         }
 
@@ -40,23 +38,8 @@ namespace ClashRoyale.API.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// </summary>
         [JsonProperty(PropertyName = "level")]
         public int? Level { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "maxLevel")]
-        public int? MaxLevel { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "iconUrls")]
-        public CardIconUrls IconUrls { get; set; }
 
     }
 }

@@ -24,7 +24,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// Initializes a new instance of the BattleLogTeam class.
         /// </summary>
-        public BattleLogTeam(string tag = default(string), string name = default(string), int? startingTrophies = default(int?), int? trophyChange = default(int?), int? crowns = default(int?), ClanBase clan = default(ClanBase), IList<BattleLogTeamCardsItem> cards = default(IList<BattleLogTeamCardsItem>))
+        public BattleLogTeam(string tag = default(string), string name = default(string), int? startingTrophies = default(int?), int? trophyChange = default(int?), int? crowns = default(int?), ClanBase clan = default(ClanBase), IList<CardBattleLog> cards = default(IList<CardBattleLog>))
         {
             Tag = tag;
             Name = name;
@@ -74,7 +74,7 @@ namespace ClashRoyale.API.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "cards")]
-        public IList<BattleLogTeamCardsItem> Cards { get; set; }
+        public IList<CardBattleLog> Cards { get; set; }
 
     }
 }
