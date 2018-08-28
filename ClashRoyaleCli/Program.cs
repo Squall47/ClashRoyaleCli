@@ -3,6 +3,7 @@ using System.Linq;
 using ClashRoyale.API.Models;
 using ClashRoyalCli.APIExtend;
 using Microsoft.Rest;
+using System;
 
 namespace ClashRoyalCli
 {
@@ -32,32 +33,40 @@ namespace ClashRoyalCli
             }
 
             Console
-                .NewChoice("1", "Rank of your clan", Console
-                    .NewChoice("1", "Local", RankLocalClan)
-                    .NewChoice("2", "General", RankGeneralClan))
-                .NewChoice("2", "Upcomming chests", UpcommingChests)
-                .NewChoice("3", "Open tournaments", OpenTournaments)
-                .NewChoice("4", "Completed cards", CompletedCards)
-                .NewChoice("5", "Missing cards", MissingCards)
-                .NewChoice("6", "Usage cards in local top 200", UsageCardsTop)
-                .NewChoice("7", "Winrate card local top 200", WinrateCardTop)
-                .NewChoice("8", "Winrate card by trophes", WinrateCardByClanTrophe)
-                .NewChoice("9", "Change player and clan", Console
-                    .NewChoice("1", "Change player and clan", SettingPlayerClan)
-                    .NewChoice("2", "Change just clan", SettingClan))
-                .WaitKey("x", client);
+                .NewChoice(ConsoleKey.D1, "Rank of your clan", Console
+                    .NewChoice(ConsoleKey.D1, "Local", RankLocalClan)
+                    .NewChoice(ConsoleKey.D2, "General", RankGeneralClan))
+                .NewChoice(ConsoleKey.D2, "Various functions", Console
+                    .NewChoice(ConsoleKey.D1, "Upcomming chests", UpcommingChests)
+                    .NewChoice(ConsoleKey.D2, "Open tournaments", OpenTournaments)
+                    .NewChoice(ConsoleKey.D3, "Cards list", ListCards))
+                .NewChoice(ConsoleKey.D3, "My cards", Console
+                    .NewChoice(ConsoleKey.D1, "Completed cards", CompletedCards)
+                    .NewChoice(ConsoleKey.D2, "Missing cards", MissingCards))
+                .NewChoice(ConsoleKey.D4, "Stats players", Console
+                    .NewChoice(ConsoleKey.D1, "Usage cards in local top 200", UsageCardsTop)
+                    .NewChoice(ConsoleKey.D2, "Winrate card local top 200", WinrateCardTop)
+                    .NewChoice(ConsoleKey.D3, "Winrate card by trophes", WinrateCardByClanTrophe))
+                .NewChoice(ConsoleKey.D9, "Change player and clan", Console
+                    .NewChoice(ConsoleKey.D1, "Change player and clan", SettingPlayerClan)
+                    .NewChoice(ConsoleKey.D2, "Change just clan", SettingClan))
+                .WaitKey(ConsoleKey.X, client);
+        }
+
+        private static void ListCards()
+        {
+            var cards = client.GetCards();
+            Console.WriteTable(cards, p => p.CardType, p => p.Name, p => p.MaxLevel, p => p.IconUrls.Medium);
         }
 
         private static void RankLocalClan()
         {
-            Console.WriteLine($"Local.....");
             var posi = client.GetClanRank();
             Console.WriteLine($"Local rank of your clan is {posi}");
         }
 
         private static void RankGeneralClan()
         {
-            Console.WriteLine($"General.....");
             var posi = client.GetClanRank(false);
             Console.WriteLine($"General rank of your clan is {posi}");
         }
@@ -65,11 +74,11 @@ namespace ClashRoyalCli
         private static void UpcommingChests()
         {
             var chests = client.GetChests();
-            Console.WriteTable(chests, p => p.Index, p => p.Name, p => p.Name);
+            Console.WriteTable(chests, p => p.Index, p => p.Name);
         }
         private static void OpenTournaments()
         {
-            var tournements = client.GetTournaments().ToList();//.OrderBy(p => p.CreatedTime);
+            var tournements = client.GetTournaments().OrderBy(p => p.CreatedTime);
             Console.WriteTable(tournements, p => p.CreatedTime, p => p.Places, p => p.Status, p => p.Name);
         }
         private static void CompletedCards()
@@ -88,7 +97,6 @@ namespace ClashRoyalCli
         }
         private static void UsageCardsTop()
         {
-            Console.WriteLine($"wait ...");
             var clanlocal = client.GetDetailClan();
             var cards = client.GetCarsUsageTopRanking(clanlocal.Location.Id);
             Console.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count, p => p.AssoCard(0), p => p.AssoCard(1), p => p.AssoCard(2)
@@ -96,7 +104,6 @@ namespace ClashRoyalCli
         }
         private static void WinrateCardTop()
         {
-            Console.WriteLine($"wait ...");
             var clanlocal = client.GetDetailClan();
             var cards = client.GetCardsWinTopPlayer(clanlocal.Location.Id);
             Console.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count);

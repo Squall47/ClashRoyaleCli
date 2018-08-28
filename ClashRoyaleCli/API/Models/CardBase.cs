@@ -56,5 +56,13 @@ namespace ClashRoyale.API.Models
         [JsonProperty(PropertyName = "iconUrls")]
         public CardIconUrls IconUrls { get; set; }
 
+        public string CardType
+        {
+            get
+            {
+                return ClashRoyalCli.APIExtend.CardHelper.CardType(this);
+            }
+        }
+
     }
 }

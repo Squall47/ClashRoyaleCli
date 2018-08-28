@@ -70,12 +70,12 @@ namespace ClashRoyalCli
             }
         }
 
-        public static ConsoleChoice NewChoice(string car, string text, ConsoleChoice subChoice)
+        public static ConsoleChoice NewChoice(ConsoleKey car, string text, ConsoleChoice subChoice)
         {
             return new ConsoleChoice(car, text, subChoice);
         }
 
-        public static ConsoleChoice NewChoice(string car, string text, Action action)
+        public static ConsoleChoice NewChoice(ConsoleKey car, string text, Action action)
         {
             return new ConsoleChoice(car, text, action);
         }
@@ -112,9 +112,6 @@ namespace ClashRoyalCli
                 var top = Console.CursorTop;
                 console.Write(message);
                 LastSameline = message.Length;
-                //console.SetCursorPosition(left, top);
-                //console.Write(new string(' ', message.Length));
-                //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
                 console.SetCursorPosition(left, top);
             }
         }

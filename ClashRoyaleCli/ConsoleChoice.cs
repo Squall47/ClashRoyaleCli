@@ -14,80 +14,81 @@ namespace ClashRoyalCli
         {
             private List<ChoiceDetail> _actions = new List<ChoiceDetail>();
 
-            public ConsoleChoice(string car, string text, ConsoleChoice subChoice)
+            public ConsoleChoice(ConsoleKey car, string text, ConsoleChoice subChoice)
             {
                 NewChoice(car, text, subChoice);
             }
 
-            public ConsoleChoice(string car, string text, Action action)
+            public ConsoleChoice(ConsoleKey car, string text, Action action)
             {
                 NewChoice(car, text, action);
             }
 
-            public ConsoleChoice NewChoice(string car, string text, Action action)
+            public ConsoleChoice NewChoice(ConsoleKey car, string text, Action action)
             {
-                _actions.Add(new ChoiceDetail { Key = car.ToLower(), Action = action, Text = text });
+                _actions.Add(new ChoiceDetail { Key = car, Action = action, Text = text });
                 return this;
             }
 
-            public ConsoleChoice NewChoice(string car, string text, ConsoleChoice subChoice)
+            public ConsoleChoice NewChoice(ConsoleKey car, string text, ConsoleChoice subChoice)
             {
-                _actions.Add(new ChoiceDetail { Key = car.ToLower(), Text = text, SubChoice = subChoice });
+                _actions.Add(new ChoiceDetail { Key = car, Text = text, SubChoice = subChoice });
                 return this;
             }
 
-            public void WaitKey(string carExit, ClientCR client)
+            public void WaitKey(ConsoleKey carExit, ClientCR client)
             {
-                var carTemp = string.Empty;
+                ShowChoices(carExit);
                 while (true)
                 {
-                    Console.WriteLine();
-                    foreach (var action in _actions)
+                    var key = console.ReadKey();
+                    if (key.Key == ConsoleKey.Escape)
                     {
-                        Console.WriteLine($" - {action.Key} : {action.Text}");
+                        console.WriteLine();
+                        client.DemandStopping = true;
                     }
-                    
-                    Console.WriteLine($" - {carExit} : exit");
-                    Console.WriteLine();
-                    Console.Write(" - Choice : ");
-                    var x = console.ReadKey().KeyChar.ToString().ToLower();
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    if (x == carExit) break;
-                    var actionlocal = _actions.FirstOrDefault(p => p.Key == x);
-                    if (actionlocal != null)
+                    else if (key.Key == carExit)
                     {
-                        if (actionlocal.SubChoice != null)
+                        console.WriteLine();
+                        break;
+                    }
+                    else
+                    {
+                        console.WriteLine();
+                        var actionlocal = _actions.FirstOrDefault(p => p.IsSameChar(key.Key));
+                        if (actionlocal != null)
                         {
-                            actionlocal.SubChoice.WaitKey("x", client);
-                            continue;
-                        }
-
-                        var tokenSource = new CancellationTokenSource();
-                        var ct = tokenSource.Token;
-                        var task1 = Task.Factory.StartNew(actionlocal.Action);
-
-                        Thread stopThread = new Thread(()=>
-                        {
-                            while (true)
+                            if (actionlocal.SubChoice != null)
                             {
-                                var key = console.ReadKey();
-                                if (key.KeyChar.ToString().ToLower() == carExit)
-                                {
-                                    console.WriteLine();
-                                    client.DemandStopping = true;
-                                    break;
-                                }
+                                actionlocal.SubChoice.WaitKey(carExit, client);
+                                ShowChoices(carExit);
+                                continue;
                             }
-                        });
-                        stopThread.Start();
 
-                        task1.Wait();
-                        if(stopThread.ThreadState == ThreadState.Running) stopThread.Abort();
+                            var tokenSource = new CancellationTokenSource();
+                            var ct = tokenSource.Token;
+                            var task = Task.Factory.StartNew(actionlocal.Action).ContinueWith(taskShow => ShowChoices(carExit));
+                        }
                     }
+
                 }
+            }
+
+            private void ShowChoices(ConsoleKey carExit)
+            {
+                Console.WriteLine();
+                foreach (var action in _actions)
+                {
+                    Console.WriteLine($" - {(char)action.Key} : {action.Text}");
+                }
+
+                Console.WriteLine($" - {carExit} : exit");
+                Console.WriteLine("[escape] key to stop the requests...");
+                Console.WriteLine();
+                Console.Write(" - Choice : ");
             }
         }
 
     }
+
 }

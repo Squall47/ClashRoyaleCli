@@ -87,12 +87,6 @@ namespace ClashRoyalCli.APIExtend
 
         #region Player
 
-        public class WinBattle
-        {
-            public int? Crowns { get; set; }
-            public IList<CardBattleLog> Cards { get; set; }
-        }
-
         public List<CardStat> GetCardsWinTopPlayer(int? idlocation = null)
         {
             try
@@ -157,6 +151,14 @@ namespace ClashRoyalCli.APIExtend
             using (var client = new CRClient(_uriBaseUrl, _credentials))
             {
                 return client.GetPlayer(tag);
+            }
+        }
+
+        public List<CardBase> GetCards()
+        {
+            using (var client = new CRClient(_uriBaseUrl, _credentials))
+            {
+                return client.GetCards().Items.OrderBy(p=> p.MaxLevel).ToList();
             }
         }
 

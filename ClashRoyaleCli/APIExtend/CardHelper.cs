@@ -20,7 +20,7 @@ namespace ClashRoyalCli.APIExtend
             return nbCardsCollect * -1;
         }
 
-        public static string CardType(CardPlayer card)
+        public static string CardType(CardBase card)
         {
             switch (card.MaxLevel)
             {
