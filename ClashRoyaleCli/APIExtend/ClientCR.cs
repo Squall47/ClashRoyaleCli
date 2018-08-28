@@ -89,18 +89,24 @@ namespace ClashRoyalCli.APIExtend
 
         public List<CardStat> GetCardsWinTopPlayer(int? idlocation = null)
         {
+            var result = new List<CardStat>();
             try
             {
                 using (var client = new CRClient(_uriBaseUrl, _credentials))
                 {
                     var players = client.GetPlayerRanking(idlocation?.ToString());
-                    return InternalGetCardWin(players.Items.Cast<PlayerBase>().ToList());
+                    result = InternalGetCardWin(players.Items.Cast<PlayerBase>().ToList());
                 }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {
                 DemandStopping = false;
             }
+            return result;
         }
 
         private List<CardStat> InternalGetCardWin(IList<PlayerBase> players)
@@ -210,6 +216,7 @@ namespace ClashRoyalCli.APIExtend
 
         public List<CardStat> GetCardsWinByPlayerIntoClan(int startTrophes, int? locationId = null)
         {
+            var result = new List<CardStat>();
             try
             {
                 var cardwins = new List<CardStat>();
@@ -226,11 +233,11 @@ namespace ClashRoyalCli.APIExtend
                     }
                 }
 
-                var wins = cardwins.GroupBy(p => p.Name).Select(p => new CardStat { Name = p.First().Name, Count = p.Sum(c => c.Count) }).OrderByDescending(p => p.Count).ToList();
+                result = cardwins.GroupBy(p => p.Name).Select(p => new CardStat { Name = p.First().Name, Count = p.Sum(c => c.Count) }).OrderByDescending(p => p.Count).ToList();
 
                 var posi = 0;
                 var lastusage = int.MaxValue;
-                foreach (var card in wins)
+                foreach (var card in result)
                 {
                     if (card.Count != lastusage)
                     {
@@ -239,16 +246,21 @@ namespace ClashRoyalCli.APIExtend
                     }
                     card.Rank = posi;
                 }
-                return wins;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {
                 DemandStopping = false;
             }
+            return result;
         }
 
         public List<SearchResultClan> GetClansRank(int startTrophes, int? locationId)
         {
+            var result = new List<SearchResultClan>();
             try
             {
                 using (var client = new CRClient(_uriBaseUrl, _credentials))
@@ -271,13 +283,18 @@ namespace ClashRoyalCli.APIExtend
                         waitEnd = clans.Items.Count < MaxItems ? waitEnd - 1 : wait;
                         startTrophes += 50;
                     }
-                    return dico.Select(p => p.Value).OrderByDescending(p => p.ClanScore).ToList();
+                    result = dico.Select(p => p.Value).OrderByDescending(p => p.ClanScore).ToList();
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {
                 DemandStopping = false;
             }
+            return result;
         }
         #endregion
 
@@ -295,9 +312,11 @@ namespace ClashRoyalCli.APIExtend
         #region TopRanking
         public List<CardStat> GetCarsUsageTopRanking(int? idlocation = null, int nbcardAssociated = 4)
         {
+            var playerCards = new List<PlayerDetail>();
+            var cardsUsage = new List<CardStat>();
             try
             {
-                var playerCards = new List<PlayerDetail>();
+                
                 using (var client = new CRClient(_uriBaseUrl, _credentials))
                 {
                     var players = client.GetPlayerRanking(idlocation?.ToString());
@@ -305,10 +324,11 @@ namespace ClashRoyalCli.APIExtend
                     {
                         if (DemandStopping) break;
                         var playerDetail = client.GetPlayer(player.Tag);
-                        playerCards.Add(playerDetail);
+                        if(playerDetail != null && playerDetail.CurrentCards !=null)
+                            playerCards.Add(playerDetail);
                     }
                 }
-                var cardsUsage = playerCards.SelectMany(p => p.CurrentCards).GroupBy(p => p.Name).Select(p => new CardStat { Name = p.First().Name, Count = p.Count() }).OrderByDescending(p => p.Count).ToList();
+                cardsUsage = playerCards.SelectMany(p => p.CurrentCards).GroupBy(p => p.Name).Select(p => new CardStat { Name = p.First().Name, Count = p.Count() }).OrderByDescending(p => p.Count).ToList();
                 var posi = 0;
                 var lastusage = int.MaxValue;
                 foreach (var card in cardsUsage)
@@ -321,12 +341,17 @@ namespace ClashRoyalCli.APIExtend
                     card.Rank = posi;
                     card.AssociatedCards = playerCards.Where(p => p.CurrentCards.Any(c => c.Name == card.Name)).SelectMany(p => p.CurrentCards).Where(p => p.Name != card.Name).GroupBy(p => p.Name).Select(p => new CardStat { Name = p.First().Name, Count = p.Count() }).OrderByDescending(p => p.Count).Take(nbcardAssociated).ToList();
                 }
-                return cardsUsage;
+                
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {
                 DemandStopping = false;
             }
+            return cardsUsage;
         }
         #endregion
     }

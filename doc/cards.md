@@ -1,3 +1,5 @@
+# All cards
+
 |CardType|            Name|MaxLevel|                                                                                      Medium|
 |--------|----------------|--------|--------------------------------------------------------------------------------------------|
 |  Legend|      Ice Wizard|       5|https://api-assets.clashroyale.com/cards/300/W3dkw0HTw9n1jB-zbknY2w3wHuyuLxSRIAV5fUT1SEY.png|
