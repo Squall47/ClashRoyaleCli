@@ -56,6 +56,22 @@ namespace ClashRoyale.API.Models
         [JsonProperty(PropertyName = "iconUrls")]
         public CardIconUrls IconUrls { get; set; }
 
+        public string ImgMarkDown
+        {
+            get
+            {
+                return $"<img src={IconUrls.Medium} width=60 />";
+            }
+        }
+
+        public string Icon
+        {
+            get
+            {
+                return $"<img src={IconUrls.Medium} width=60 t alt='{Name}' title='{Name}'/>";
+            }
+        }
+
         public string CardType
         {
             get

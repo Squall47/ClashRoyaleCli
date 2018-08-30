@@ -4,152 +4,162 @@ using ClashRoyale.API.Models;
 using ClashRoyalCli.APIExtend;
 using Microsoft.Rest;
 using System;
+using System.Linq.Expressions;
+using System.IO;
 
 namespace ClashRoyalCli
 {
     partial class Program
     {
         public static ClientCR client = new ClientCR(ConfigRepo.Config);
+        public static ExtConsole ExtConsole = new ExtConsole();
+
         static void Main(string[] args)
         {
             ServiceClientTracing.IsEnabled = true;
-            ServiceClientTracing.AddTracingInterceptor(new DebugTracer());
+            ServiceClientTracing.AddTracingInterceptor(new DebugTracer(ExtConsole));
 
             if (ConfigRepo.NotConfigure())
             {
-                Console.WriteLine("You must complete the config.json file.");
-                Console.WriteLine("Create an account on https://developer.clashroyale.com and genrate a key(token)");
-                Console.ReadKey();
+                ExtConsole.WriteLine("You must complete the config.json file.");
+                ExtConsole.WriteLine("Create an account on https://developer.clashroyale.com and genrate a key(token)");
+                ExtConsole.ReadKey();
                 return;
             }
 
             if (client.Player != null)
             {
-                Console.WriteLine($"Player : {client.Player}");
+                ExtConsole.WriteLine($"Player : {client.Player}");
             }
             if (client.Clan != null)
             {
-                Console.WriteLine($"Clan   : {client.Clan}");
+                ExtConsole.WriteLine($"Clan   : {client.Clan}");
             }
 
-            Console
-                .NewChoice(ConsoleKey.D1, "Rank of your clan", Console
+            ExtConsole
+                .NewChoice(ConsoleKey.D1, "Rank of your clan", ExtConsole
                     .NewChoice(ConsoleKey.D1, "Local", RankLocalClan)
                     .NewChoice(ConsoleKey.D2, "General", RankGeneralClan))
-                .NewChoice(ConsoleKey.D2, "Various functions", Console
+                .NewChoice(ConsoleKey.D2, "Various functions", ExtConsole
                     .NewChoice(ConsoleKey.D1, "Upcomming chests", UpcommingChests)
                     .NewChoice(ConsoleKey.D2, "Open tournaments", OpenTournaments)
                     .NewChoice(ConsoleKey.D3, "Cards list", ListCards))
-                .NewChoice(ConsoleKey.D3, "My cards", Console
+                .NewChoice(ConsoleKey.D3, "My cards", ExtConsole
                     .NewChoice(ConsoleKey.D1, "Completed cards", CompletedCards)
                     .NewChoice(ConsoleKey.D2, "Missing cards", MissingCards))
-                .NewChoice(ConsoleKey.D4, "Stats players", Console
+                .NewChoice(ConsoleKey.D4, "Stats players", ExtConsole
                     .NewChoice(ConsoleKey.D1, "Usage cards in local top 200", UsageCardsTop)
                     .NewChoice(ConsoleKey.D2, "Winrate card local top 200", WinrateCardTop)
-                    .NewChoice(ConsoleKey.D3, "Winrate card by trophes", WinrateCardByClanTrophe))
-                .NewChoice(ConsoleKey.D9, "Change player and clan", Console
+                    .NewChoice(ConsoleKey.D3, "Winrate card by trophes (is long)", WinrateCardByClanTrophe, "Minimum clan trophy : "))
+                .NewChoice(ConsoleKey.D9, "Change player and clan", ExtConsole
                     .NewChoice(ConsoleKey.D1, "Change player and clan", SettingPlayerClan)
                     .NewChoice(ConsoleKey.D2, "Change just clan", SettingClan))
                 .WaitKey(ConsoleKey.X, client);
         }
 
-        private static void ListCards()
+        private static void ListCards(params string[] args)
         {
             var cards = client.GetCards();
-            Console.WriteTable(cards, p => p.CardType, p => p.Name, p => p.MaxLevel, p => p.IconUrls.Medium);
-        }
+            ExtConsole.WriteTable(cards, p => p.CardType, p => p.Name, p => p.MaxLevel, p => p.IconUrls.Medium);
+            if (client.Config.SaveFiles)
+                ExtConsole.SaveFile($"Cards", cards, p => p.CardType, p => p.Name, p => p.MaxLevel, p => p.Icon);
 
-        private static void RankLocalClan()
+        }
+        private static void RankLocalClan(params string[] args)
         {
             var posi = client.GetClanRank();
-            Console.WriteLine($"Local rank of your clan is {posi}");
+            ExtConsole.WriteLine($">> Local {client.Clan.Location.Name} rank of clan {client.Clan.Name} is {posi}");
         }
-
-        private static void RankGeneralClan()
+        private static void RankGeneralClan(params string[] args)
         {
             var posi = client.GetClanRank(false);
-            Console.WriteLine($"General rank of your clan is {posi}");
+            ExtConsole.WriteLine($">> General rank of clan {client.Clan.Name}  is {posi}");
         }
-
-        private static void UpcommingChests()
+        private static void UpcommingChests(params string[] args)
         {
             var chests = client.GetChests();
-            Console.WriteTable(chests, p => p.Index, p => p.Name);
+            ExtConsole.WriteTable(chests, p => p.Index, p => p.Name);
         }
-        private static void OpenTournaments()
+        private static void OpenTournaments(params string[] args)
         {
             var tournements = client.GetTournaments().OrderBy(p => p.CreatedTime);
-            Console.WriteTable(tournements, p => p.CreatedTime, p => p.Places, p => p.Status, p => p.Name);
+            ExtConsole.WriteTable(tournements, p => p.CreatedTime, p => p.Places, p => p.Status, p => p.Name);
         }
-        private static void CompletedCards()
+        private static void CompletedCards(params string[] args)
         {
             var cards = client.GetMissingCards().Where(p => p.Cards >= 0).ToList();
-            Console.WriteLine($">> {cards.Count} full collected cards");
-            Console.WriteLine($">> {cards.Where(p => p.IsMax).Count()} max cards");
+            ExtConsole.WriteLine($">> {cards.Count} full collected cards");
+            ExtConsole.WriteLine($">> {cards.Where(p => p.IsMax).Count()} max cards");
             var lst = cards.OrderBy(p => p.MaxLevel).ThenBy(p => p.Cards);
-            Console.WriteTable(lst, p => p.CardType, p => p.Level, p => p.MaxLevel, p => p.IsMax, p => p.Cards, p => p.Name);
+            ExtConsole.WriteTable(lst, p => p.CardType, p => p.Level, p => p.MaxLevel, p => p.IsMax, p => p.Cards, p => p.Name);
         }
-        private static void MissingCards()
+        private static void MissingCards(params string[] args)
         {
             var cards = client.GetMissingCards().Where(p => p.Cards < 0);
             var lst = cards.OrderBy(p => p.MaxLevel).ThenByDescending(p => p.Cards);
-            Console.WriteTable(lst, p => p.CardType, p => p.Level, p => p.MaxLevel, p => p.IsMax, p => p.Cards, p => p.Name);
+            ExtConsole.WriteTable(lst, p => p.CardType, p => p.Level, p => p.MaxLevel, p => p.IsMax, p => p.Cards, p => p.Name);
         }
-        private static void UsageCardsTop()
+        private static void UsageCardsTop(params string[] args)
         {
-            var clanlocal = client.GetDetailClan();
-            var cards = client.GetCarsUsageTopRanking(clanlocal.Location.Id);
-            Console.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count, p => p.AssoCard(0), p => p.AssoCard(1), p => p.AssoCard(2)
-            , p => p.AssoCard(3));
+            ExtConsole.WriteLine($">> Usage cards top 200 {client.Clan.Location.Name}");
+            var cards = client.GetCarsUsageTopRanking(client.Clan.Location.Id);
+            ExtConsole.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count, p => p.AssoCard(0), p => p.AssoCard(1), p => p.AssoCard(2), p => p.AssoCard(3));
+            if(client.Config.SaveFiles)
+                ExtConsole.SaveFile($"UsageCardsTop-{client.Clan.Location.Name}", cards, p => p.Rank, p => p.Icon, p => p.Name, p => p.Count, p => p.AssoCard());
         }
-        private static void WinrateCardTop()
+        private static void WinrateCardTop(params string[] args)
         {
-            var clanlocal = client.GetDetailClan();
-            var cards = client.GetCardsWinTopPlayer(clanlocal.Location.Id);
-            Console.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count);
+            ExtConsole.WriteLine($">> Win cards into 25 last battles for players top 200 {client.Clan.Location.Name}");
+            var cards = client.GetCardsWinTopPlayer(client.Clan.Location.Id);
+            ExtConsole.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count);
+            if (client.Config.SaveFiles)
+                ExtConsole.SaveFile($"WinsCardsTop-{client.Clan.Location.Name}", cards, p => p.Rank, p => p.Icon, p => p.Name, p => p.Count);
         }
-        private static void SettingClan()
+        private static void WinrateCardByClanTrophe(params string[] args)
         {
-            Console.Write($"Clan tag :");
-            var tag = Console.ReadLine();
+            ExtConsole.WriteLine($">> Win cards into 25 last battles for players into clan trophies above {args[0]}");
+            var cards = client.GetCardsWinByPlayerIntoClan(int.Parse(args[0]));
+            ExtConsole.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count);
+            if (client.Config.SaveFiles)
+                ExtConsole.SaveFile($"WinsCardsGeneralPlayersIntoClanAbove-{args[0]}", cards, p => p.Rank, p => p.Icon, p => p.Name, p => p.Count);
+        }
+
+        private static void SettingClan(params string[] args)
+        {
+            ExtConsole.Write($"Clan tag :");
+            var tag = ExtConsole.ReadLine();
             if (!tag.StartsWith("#")) tag = "#" + tag;
             var clanlocal = client.GetClan(tag);
             if (clanlocal != null)
             {
-                Console.WriteLine($"Clan : {clanlocal.Name}");
+                ExtConsole.WriteLine($"Clan : {clanlocal.Name}");
                 client.SetClanTag(tag);
                 ConfigRepo.SetClanTag(tag);
             }
             else
             {
-                Console.Write($"Not exist");
+                ExtConsole.Write($"Not exist");
             }
         }
-        private static void SettingPlayerClan()
+        private static void SettingPlayerClan(params string[] args)
         {
-            Console.Write($"Player tag :");
-            var tag = Console.ReadLine();
+            ExtConsole.Write($"Player tag :");
+            var tag = ExtConsole.ReadLine();
             if (!tag.StartsWith("#")) tag = "#" + tag;
             var playerlocal = client.GetPlayer(tag);
             if (playerlocal != null)
             {
-                Console.WriteLine($"Player : {playerlocal.Name}");
+                ExtConsole.WriteLine($"Player : {playerlocal.Name}");
                 client.SetPlayertag(playerlocal.Tag);
                 ConfigRepo.SetPlayertag(playerlocal.Tag);
-                Console.WriteLine($"Clan : {playerlocal.Clan.Name}");
+                ExtConsole.WriteLine($"Clan : {playerlocal.Clan.Name}");
                 client.SetClanTag(playerlocal.Clan.Tag);
                 ConfigRepo.SetClanTag(playerlocal.Clan.Tag);
             }
             else
             {
-                Console.Write($"Not exist");
+                ExtConsole.Write($"Not exist");
             }
-
-        }
-        private static void WinrateCardByClanTrophe()
-        {
-            var cards = client.GetCardsWinByPlayerIntoClan(55000);
-            Console.WriteTable(cards, p => p.Rank, p => p.Name, p => p.Count);
         }
     }
 }

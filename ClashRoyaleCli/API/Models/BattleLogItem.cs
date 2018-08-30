@@ -32,7 +32,7 @@ namespace ClashRoyale.API.Models
             GameMode = gameMode;
             DeckSelection = deckSelection;
             Team = team;
-            //Opponent = opponent;
+            Opponent = opponent;
             CustomInit();
         }
 

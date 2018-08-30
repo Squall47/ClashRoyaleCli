@@ -8,6 +8,13 @@ namespace ClashRoyalCli
 {
     public class DebugTracer : IServiceClientTracingInterceptor
     {
+        private ExtConsole extConsole;
+
+        public DebugTracer(ExtConsole extConsole)
+        {
+            this.extConsole = extConsole;
+        }
+
         public void Information(string message)
         {
             Debug.WriteLine(message);
@@ -26,7 +33,7 @@ namespace ClashRoyalCli
 
         public void SendRequest(string invocationId, HttpRequestMessage request)
         {
-            Console.WriteSameLine(request.RequestUri.PathAndQuery);
+            extConsole.WriteSameLine(request.RequestUri.PathAndQuery);
             Debug.WriteLine(request.RequestUri.PathAndQuery);
         }
 

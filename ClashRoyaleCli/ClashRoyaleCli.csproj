@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIExtend\Models\BattleLogTeam.cs" />
     <Compile Include="API\CRClient.cs" />
     <Compile Include="API\CRClientExtensions.cs" />
     <Compile Include="API\ICRClient.cs" />
@@ -111,9 +112,11 @@
     <Compile Include="APIExtend\Models\CRConfig.cs" />
     <Compile Include="APIExtend\DateConverter.cs" />
     <Compile Include="APIExtend\Models\MissingCard.cs" />
-    <Compile Include="Console.cs" />
     <Compile Include="ConsoleChoice.cs" />
     <Compile Include="DebugTracer.cs" />
+    <Compile Include="ExtConsole.cs" />
+    <Compile Include="FileWriteable.cs" />
+    <Compile Include="IWriteable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tabulate.cs" />

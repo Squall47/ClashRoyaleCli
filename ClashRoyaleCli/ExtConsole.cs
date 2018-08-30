@@ -1,29 +1,53 @@
-﻿using System;
+﻿using ClashRoyalCli.APIExtend;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using console = System.Console;
 
 namespace ClashRoyalCli
 {
-    public static partial class Console
+    public class ExtConsole : IWriteable
     {
-        private static int LastSameline = 0;
+        public static string OutpoutDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "Outpout");
         private static object _verou = new object();
-        public static void WriteLine(string message = null)
+        private int LastSameline;
+
+        static ExtConsole()
+        {
+            if (!Directory.Exists(OutpoutDirectory))
+            {
+                Directory.CreateDirectory(OutpoutDirectory);
+            }
+        }
+        public void SaveFile<T>(string name, IEnumerable<T> table, params Expression<Func<T, object>>[] selectors) where T : class
+        {
+            using (var file = new FileWriteable(Path.Combine(OutpoutDirectory, $"{DateTime.Now:yyyy-MM-dd}_{name}.md")))
+            {
+                InternalWriteTable(file, table, selectors);
+            }  
+        }
+        public void WriteLine(string message = null)
         {
             IntLine();
             lock (_verou) console.WriteLine(message);
         }
 
-        public static void Write(string message = null)
+        public void Write(string message = null)
         {
             IntLine();
             lock (_verou) console.Write(message);
         }
 
-        public static void WriteTable<T>(IEnumerable<T> table, params Expression<Func<T, object>>[] selectors) where T : class
+        public void WriteTable<T>(IEnumerable<T> table, params Expression<Func<T, object>>[] selectors) where T : class
+        {
+            InternalWriteTable(this, table, selectors);
+        }
+
+        private void InternalWriteTable<T>(IWriteable writer, IEnumerable<T> table, params Expression<Func<T, object>>[] selectors) where T : class
         {
             IntLine();
             var datas = new List<Tabulate<T>>();
@@ -43,44 +67,46 @@ namespace ClashRoyalCli
             {
                 if (datas.Any(p => p.Hasdata))
                 {
-                    if (true)
+                    var hasdata = datas.Where(p => p.Hasdata).ToList();
+                    if (true) //header option
                     {
                         var line = "|";
-                        console.Write("|");
-                        foreach (var data in datas)
+                        writer.Write("|");
+                        
+                        foreach (var data in hasdata)
                         {
-                            console.Write(data.Name.PadLeft(data.MaxValue));
+                            writer.Write(data.Name.PadLeft(data.MaxValue));
                             line = line + new string('-', data.MaxValue) + "|";
-                            console.Write("|");
+                            writer.Write("|");
                         }
-                        console.WriteLine();
-                        console.WriteLine(line);
+                        writer.WriteLine();
+                        writer.WriteLine(line);
                     }
-                    for (int i = 0; i < datas.Max(p => p.Values.Count); i++)
+                    for (int i = 0; i < hasdata.Max(p => p.Values.Count); i++)
                     {
-                        console.Write("|");
-                        foreach (var data in datas)
+                        writer.Write("|");
+                        foreach (var data in hasdata)
                         {
-                            console.Write(data.Values[i].PadLeft(data.MaxValue));
-                            console.Write("|");
+                            writer.Write(data.Values[i]?.PadLeft(data.MaxValue));
+                            writer.Write("|");
                         }
-                        console.WriteLine();
+                        writer.WriteLine();
                     }
                 }
             }
         }
 
-        public static ConsoleChoice NewChoice(ConsoleKey car, string text, ConsoleChoice subChoice)
+        public ConsoleChoice NewChoice(ConsoleKey car, string text, ConsoleChoice subChoice)
         {
             return new ConsoleChoice(car, text, subChoice);
         }
 
-        public static ConsoleChoice NewChoice(ConsoleKey car, string text, Action action)
+        public ConsoleChoice NewChoice(ConsoleKey car, string text, Action<string[]> action)
         {
             return new ConsoleChoice(car, text, action);
         }
 
-        private static string GetPropertyName<T>(Expression<Func<T, object>> property)
+        private string GetPropertyName<T>(Expression<Func<T, object>> property)
         {
             var lambda = (LambdaExpression)property;
             MemberExpression memberExpression;
@@ -103,27 +129,27 @@ namespace ClashRoyalCli
             return ((PropertyInfo)memberExpression.Member).Name;
         }
 
-        public static void WriteSameLine(string message)
+        public void WriteSameLine(string message)
         {
             IntLine();
             lock (_verou)
             {
-                var left = Console.CursorLeft;
-                var top = Console.CursorTop;
+                var left = CursorLeft;
+                var top = CursorTop;
                 console.Write(message);
                 LastSameline = message.Length;
                 console.SetCursorPosition(left, top);
             }
         }
 
-        private static void IntLine()
+        private void IntLine()
         {
             if (LastSameline > 0)
             {
                 lock (_verou)
                 {
-                    var left = Console.CursorLeft;
-                    var top = Console.CursorTop;
+                    var left = CursorLeft;
+                    var top = CursorTop;
                     console.Write(new string(' ', LastSameline));
                     console.SetCursorPosition(left, top);
                     LastSameline = 0;
@@ -132,17 +158,17 @@ namespace ClashRoyalCli
         }
 
 
-        public static string ReadLine()
+        public string ReadLine()
         {
             return console.ReadLine();
         }
 
-        public static ConsoleKeyInfo ReadKey()
+        public ConsoleKeyInfo ReadKey()
         {
             return console.ReadKey();
         }
 
-        public static int CursorLeft
+        public int CursorLeft
         {
             get
             {
@@ -150,7 +176,7 @@ namespace ClashRoyalCli
             }
         }
 
-        public static int CursorTop
+        public int CursorTop
         {
             get
             {
@@ -158,7 +184,7 @@ namespace ClashRoyalCli
             }
         }
 
-        public static void SetCursorPosition(int left, int top)
+        public void SetCursorPosition(int left, int top)
         {
             console.SetCursorPosition(left, top);
         }

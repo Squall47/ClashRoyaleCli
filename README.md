@@ -13,8 +13,10 @@ Clash Royale API Command Line
     - Open tournaments
     - Completed cards
     - Missing cards
-    - Top usage cards into local top players
     - Upcomming chests
+    - Top usage cards into local top players
     - Winrate card local top 200
+    - Winrate card general player by trophy clan
+    - Savec Markdown files into Outpout folder
     
     - Change player and clan
