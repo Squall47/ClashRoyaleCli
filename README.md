@@ -17,6 +17,6 @@ Clash Royale API Command Line
     - Top usage cards into local top players
     - Winrate card local top 200
     - Winrate card general player by trophy clan
-    - Savec Markdown files into Outpout folder
+    - Save Markdown files into Outpout folder
     
     - Change player and clan
