@@ -234,7 +234,7 @@ namespace ClashRoyalCli.APIExtend
                     }
                 }
 
-                result = cardwins.GroupBy(p => p.Name).Select(p => new CardStat { Name = p.First().Name, Count = p.Sum(c => c.Count) }).OrderByDescending(p => p.Count).ToList();
+                result = cardwins.GroupBy(p => p.Name).Select(p => new CardStat { Name = p.First().Name, Count = p.Sum(c => c.Count), Url= p.First().Url }).OrderByDescending(p => p.Count).ToList();
 
                 var posi = 0;
                 var lastusage = int.MaxValue;
