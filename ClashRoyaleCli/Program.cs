@@ -11,7 +11,7 @@ namespace ClashRoyalCli
 {
     partial class Program
     {
-        public static ClientCR client = new ClientCR(ConfigRepo.Config);
+        public static ClientCR client;
         public static ExtConsole ExtConsole = new ExtConsole();
 
         static void Main(string[] args)
@@ -26,6 +26,8 @@ namespace ClashRoyalCli
                 ExtConsole.ReadKey();
                 return;
             }
+
+            client = new ClientCR(ConfigRepo.Config);
 
             if (client.Player != null)
             {
