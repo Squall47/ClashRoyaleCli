@@ -1,0 +1,33 @@
+
+
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+      <p-splitButton label="Collected cards" (onClick)="filterAll()" icon="glyphicon glyphicon-align-justify" [model]="collecteditems" styleClass="ui-button-warning"></p-splitButton>
+      <p-splitButton label="Type card" (onClick)="filterType(0)" icon="glyphicon glyphicon-align-justify" [model]="cardtypeitems" styleClass="ui-button-warning"></p-splitButton>
+    </div>
+
+    <div class="ui-toolbar-group-right">
+        <button pButton type="button"  label="Refresh" icon="pi pi-search" (click)="refresh()" [disabled]="loading"></button>
+    </div>
+</p-toolbar>
+
+<p-table #dt [value]="mycards" [loading]="loading" >
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Card</th>
+            <th>level</th>
+            <th>isMax</th>
+            <th pSortableColumn="cards">Cards <p-sortIcon field="cards"></p-sortIcon></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-car>
+        <tr>
+            <td><img src="{{car.iconUrls.medium }}" alt="{{car.name}}" width="40px"> {{ car.name }}</td>
+            <td>{{ car.level }}  /  {{ car.maxLevel }}</td>
+            <td>
+              <span [ngClass]="car.isMax ? 'glyphicon glyphicon glyphicon-ok' : (car.cards >= 0) ? 'glyphicon glyphicon glyphicon-th' : 'glyphicon glyphicon-ban-circle'"></span>
+            </td>
+            <td>{{car.cards}}</td>
+        </tr>
+    </ng-template>
+</p-table>

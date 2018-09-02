@@ -1,11 +1,9 @@
-﻿using ClashRoyale.API;
-using System.Linq;
-using ClashRoyale.API.Models;
-using ClashRoyalCli.APIExtend;
+﻿using System.Linq;
 using Microsoft.Rest;
 using System;
 using System.Linq.Expressions;
 using System.IO;
+using ClashRoyaleApi;
 
 namespace ClashRoyalCli
 {
@@ -27,7 +25,7 @@ namespace ClashRoyalCli
                 return;
             }
 
-            client = new ClientCR(ConfigRepo.Config);
+            client = new ClientCR(ConfigRepo.Config, ExtConsole);
 
             if (client.Player != null)
             {
@@ -65,7 +63,6 @@ namespace ClashRoyalCli
             ExtConsole.WriteTable(cards, p => p.CardType, p => p.Name, p => p.MaxLevel, p => p.IconUrls.Medium);
             if (client.Config.SaveFiles)
                 ExtConsole.SaveFile($"Cards", cards, p => p.CardType, p => p.Name, p => p.MaxLevel, p => p.Icon);
-
         }
         private static void RankLocalClan(params string[] args)
         {
@@ -85,7 +82,7 @@ namespace ClashRoyalCli
         private static void OpenTournaments(params string[] args)
         {
             var tournements = client.GetTournaments().OrderBy(p => p.CreatedTime);
-            ExtConsole.WriteTable(tournements, p => p.CreatedTime, p => p.Places, p => p.Status, p => p.Name);
+            ExtConsole.WriteTable(tournements, p => p.Start, p => p.Places, p => p.Status, p => p.Name);
         }
         private static void CompletedCards(params string[] args)
         {

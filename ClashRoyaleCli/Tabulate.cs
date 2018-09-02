@@ -27,18 +27,9 @@ namespace ClashRoyalCli
             }
         }
 
-        public bool Hasdata
-        {
-            get
-            {
-                return Values.Any();
-            }
-        }
+        public bool Hasdata => Values.Any();
 
-        public void PushData(T obj)
-        {
-            Values.Add(Function(obj)?.ToString());
-        }
+        public void PushData(T obj) => Values.Add(Function(obj)?.ToString());
     }
 
 }

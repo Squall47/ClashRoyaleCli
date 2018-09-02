@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net471;netcoreapp2.1</TargetFrameworks>
+    <AssemblyName>ClashRoyaleApi</AssemblyName>
+    <RootNamespace>ClashRoyaleApi</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.1</Version>
+    <Authors>cormaltes</Authors>
+    <Company>cormaltes</Company>
+    <Description></Description>
+    <Copyright></Copyright>
+    <PackageTags></PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <NeutralLanguage />
+    <AssemblyVersion>0.1.1</AssemblyVersion>
+    <FileVersion>0.1.1</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net471'">
+    <AssemblyTitle>SRP.Core .NET 4.7.1</AssemblyTitle>
+    <DefineConstants>NET471</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
+    <AssemblyTitle>SRP.Core  .NET 4.5.2</AssemblyTitle>
+    <DefineConstants>NET452</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.13" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+</Project>

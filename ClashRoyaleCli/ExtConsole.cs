@@ -1,4 +1,4 @@
-﻿using ClashRoyalCli.APIExtend;
+﻿using ClashRoyaleApi;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,11 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using console = System.Console;
 
 namespace ClashRoyalCli
 {
-    public class ExtConsole : IWriteable
+    public class ExtConsole : IWriteable, ILogger
     {
         public static string OutpoutDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "Outpout");
         private static object _verou = new object();
@@ -33,13 +32,13 @@ namespace ClashRoyalCli
         public void WriteLine(string message = null)
         {
             IntLine();
-            lock (_verou) console.WriteLine(message);
+            lock (_verou) Console.WriteLine(message);
         }
 
         public void Write(string message = null)
         {
             IntLine();
-            lock (_verou) console.Write(message);
+            lock (_verou) Console.Write(message);
         }
 
         public void WriteTable<T>(IEnumerable<T> table, params Expression<Func<T, object>>[] selectors) where T : class
@@ -96,15 +95,9 @@ namespace ClashRoyalCli
             }
         }
 
-        public ConsoleChoice NewChoice(ConsoleKey car, string text, ConsoleChoice subChoice)
-        {
-            return new ConsoleChoice(car, text, subChoice);
-        }
+        public ConsoleChoice NewChoice(ConsoleKey car, string text, ConsoleChoice subChoice) => new ConsoleChoice(car, text, subChoice);
 
-        public ConsoleChoice NewChoice(ConsoleKey car, string text, Action<string[]> action)
-        {
-            return new ConsoleChoice(car, text, action);
-        }
+        public ConsoleChoice NewChoice(ConsoleKey car, string text, Action<string[]> action) => new ConsoleChoice(car, text, action);
 
         private string GetPropertyName<T>(Expression<Func<T, object>> property)
         {
@@ -136,9 +129,9 @@ namespace ClashRoyalCli
             {
                 var left = CursorLeft;
                 var top = CursorTop;
-                console.Write(message);
+                Console.Write(message);
                 LastSameline = message.Length;
-                console.SetCursorPosition(left, top);
+                Console.SetCursorPosition(left, top);
             }
         }
 
@@ -150,44 +143,25 @@ namespace ClashRoyalCli
                 {
                     var left = CursorLeft;
                     var top = CursorTop;
-                    console.Write(new string(' ', LastSameline));
-                    console.SetCursorPosition(left, top);
+                    Console.Write(new string(' ', LastSameline));
+                    Console.SetCursorPosition(left, top);
                     LastSameline = 0;
                 }
             }
         }
 
 
-        public string ReadLine()
-        {
-            return console.ReadLine();
-        }
+        public string ReadLine() => Console.ReadLine();
 
-        public ConsoleKeyInfo ReadKey()
-        {
-            return console.ReadKey();
-        }
+        public ConsoleKeyInfo ReadKey() => Console.ReadKey();
 
-        public int CursorLeft
-        {
-            get
-            {
-                return console.CursorLeft;
-            }
-        }
+        public int CursorLeft => Console.CursorLeft;
 
-        public int CursorTop
-        {
-            get
-            {
-                return console.CursorTop;
-            }
-        }
+        public int CursorTop => Console.CursorTop;
 
-        public void SetCursorPosition(int left, int top)
-        {
-            console.SetCursorPosition(left, top);
-        }
+        public void SetCursorPosition(int left, int top) => Console.SetCursorPosition(left, top);
+
+        public void Error(Exception ex) => Console.WriteLine(ex.Message);
 
     }
 }

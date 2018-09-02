@@ -56,62 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APIExtend\Models\BattleLogTeam.cs" />
-    <Compile Include="API\CRClient.cs" />
-    <Compile Include="API\CRClientExtensions.cs" />
-    <Compile Include="API\ICRClient.cs" />
-    <Compile Include="API\Models\Arena.cs" />
-    <Compile Include="API\Models\BattleLogItem.cs" />
-    <Compile Include="API\Models\BattleLogItemGameMode.cs" />
-    <Compile Include="API\Models\BattleLogTeam.cs" />
-    <Compile Include="API\Models\CardBattleLog.cs" />
-    <Compile Include="API\Models\CardList.cs" />
-    <Compile Include="API\Models\CardBase.cs" />
-    <Compile Include="API\Models\CardIconUrls.cs" />
-    <Compile Include="API\Models\Clan.cs" />
-    <Compile Include="API\Models\ClanBase.cs" />
-    <Compile Include="API\Models\ClanMember.cs" />
-    <Compile Include="API\Models\ClanMemberList.cs" />
-    <Compile Include="API\Models\ClanRankingList.cs" />
-    <Compile Include="API\Models\ClanRanking.cs" />
-    <Compile Include="API\Models\ClanSearchResult.cs" />
-    <Compile Include="API\Models\ClanWarsRankingList.cs" />
-    <Compile Include="API\Models\ClanWarsRanking.cs" />
-    <Compile Include="API\Models\CurrentWar.cs" />
-    <Compile Include="API\Models\CurrentWarClan.cs" />
-    <Compile Include="API\Models\Error.cs" />
-    <Compile Include="API\Models\Location.cs" />
-    <Compile Include="API\Models\LocationList.cs" />
-    <Compile Include="API\Models\PlayerBase.cs" />
-    <Compile Include="API\Models\PlayerDetail.cs" />
-    <Compile Include="API\Models\PlayerDetailAchievement.cs" />
-    <Compile Include="API\Models\CardPlayer.cs" />
-    <Compile Include="API\Models\PlayerDetailLeagueStatistics.cs" />
-    <Compile Include="API\Models\PlayerRankingList.cs" />
-    <Compile Include="API\Models\PlayerRanking.cs" />
-    <Compile Include="API\Models\SearchResultClan.cs" />
-    <Compile Include="API\Models\SeasonStatistics.cs" />
-    <Compile Include="API\Models\Tournament.cs" />
-    <Compile Include="API\Models\TournamentBase.cs" />
-    <Compile Include="API\Models\TournamentBaseItemsItem.cs" />
-    <Compile Include="API\Models\TournamentMembersListItem.cs" />
-    <Compile Include="API\Models\TournamentSearchResult.cs" />
-    <Compile Include="API\Models\UpcomingChestsList.cs" />
-    <Compile Include="API\Models\UpcomingChestsListItemsItem.cs" />
-    <Compile Include="API\Models\VerifyTokenRequest.cs" />
-    <Compile Include="API\Models\VerifyTokenResponse.cs" />
-    <Compile Include="API\Models\WarLog.cs" />
-    <Compile Include="API\Models\WarLogItemsItem.cs" />
-    <Compile Include="API\Models\WarParticipant.cs" />
-    <Compile Include="APIExtend\BearerCredentials.cs" />
-    <Compile Include="APIExtend\CardHelper.cs" />
-    <Compile Include="APIExtend\Models\CardUsage.cs" />
-    <Compile Include="APIExtend\ClientCR.cs" />
     <Compile Include="ChoiceDetail.cs" />
     <Compile Include="ConfigRepo.cs" />
-    <Compile Include="APIExtend\Models\CRConfig.cs" />
-    <Compile Include="APIExtend\DateConverter.cs" />
-    <Compile Include="APIExtend\Models\MissingCard.cs" />
     <Compile Include="ConsoleChoice.cs" />
     <Compile Include="DebugTracer.cs" />
     <Compile Include="ExtConsole.cs" />
@@ -127,6 +73,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClashRoyaleApi\ClashRoyaleApi.csproj">
+      <Project>{65ac7681-8240-4737-8ffe-ad2a538cf2f8}</Project>
+      <Name>ClashRoyaleApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
