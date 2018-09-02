@@ -22,7 +22,7 @@ Clash Royale API Command Line
     - Change player and clan
     
     Command line 
-    ![Command line]{https://raw.githubusercontent.com/cormaltes/ClashRoyaleCli/master/doc/cli.png}
+    ![Command line](https://raw.githubusercontent.com/cormaltes/ClashRoyaleCli/master/doc/cli.png)
     
     Web application
-    ![Web application]{https://raw.githubusercontent.com/cormaltes/ClashRoyaleCli/master/doc/web-player-cards.png}
+    ![Web application](https://raw.githubusercontent.com/cormaltes/ClashRoyaleCli/master/doc/web-player-cards.png)
