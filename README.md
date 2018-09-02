@@ -20,3 +20,9 @@ Clash Royale API Command Line
     - Save Markdown files into Outpout folder
     
     - Change player and clan
+    
+    Command line 
+    ![]{https://raw.githubusercontent.com/cormaltes/ClashRoyaleCli/master/doc/cli.png}
+    
+    Web application
+    ![]{https://raw.githubusercontent.com/cormaltes/ClashRoyaleCli/master/doc/web-player-cards.png}
