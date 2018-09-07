@@ -11,20 +11,22 @@
     <Copyright></Copyright>
     <PackageTags></PackageTags>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl></RepositoryUrl>
-    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl>https://github.com/cormaltes/ClashRoyaleCli.git</RepositoryUrl>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/9249451?s=400&amp;u=f67b6439e2c625b02f3e86e98d7c57302dabe57a&amp;v=4</PackageIconUrl>
     <NeutralLanguage />
     <AssemblyVersion>0.1.1</AssemblyVersion>
     <FileVersion>0.1.1</FileVersion>
+    <PackageLicenseUrl>https://github.com/cormaltes/ClashRoyaleCli/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/cormaltes/ClashRoyaleCli</PackageProjectUrl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net471'">
-    <AssemblyTitle>SRP.Core .NET 4.7.1</AssemblyTitle>
-    <DefineConstants>NET471</DefineConstants>
+    <AssemblyTitle>ClashRoyaleApi.net471</AssemblyTitle>
+    <DefineConstants>net471</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
-    <AssemblyTitle>SRP.Core  .NET 4.5.2</AssemblyTitle>
-    <DefineConstants>NET452</DefineConstants>
+    <AssemblyTitle>ClashRoyaleApi.netcoreapp2.1</AssemblyTitle>
+    <DefineConstants>netcoreapp2.1</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
