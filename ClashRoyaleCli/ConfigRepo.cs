@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using ClashRoyaleApi;
 using ClashRoyaleApi.Models;
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ namespace ClashRoyalCli
 {
     public static class ConfigRepo
     {
-        const string FilePath = "config.json";
+        const string FilePath = "config_clashroyale.json";
         public static CRConfig Config { get; set; }
         static ConfigRepo()
         {
@@ -15,11 +16,24 @@ namespace ClashRoyalCli
         }
         public static void Load()
         {
-            if(!File.Exists(FilePath))
+            var uri = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
+            var pathtest = "";
+            for (int i = 0; i < uri.Length; i++)
             {
+                pathtest = Path.Combine(pathtest, uri[i] + "\\");
+                var filejson = Path.Combine(pathtest, FilePath);
+                if (File.Exists(filejson))
+                {
+                    Config = JsonConvert.DeserializeObject<CRConfig>(File.ReadAllText(filejson));
+                    break;
+                }
+            }
+            
+            if (Config == null)
+            {
+                Config = new CRConfig();
                 Save();
             }
-            Config = JsonConvert.DeserializeObject<CRConfig>(File.ReadAllText(FilePath));
         }
 
         public static void Save()

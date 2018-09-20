@@ -10,6 +10,7 @@ namespace ClashRoyaleApi.API
     using Microsoft.Rest.Serialization;
     using Models;
     using Newtonsoft.Json;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Net;

@@ -6,19 +6,24 @@
 
   <p-table #dt [value]="tournaments" [loading]="loading" >
       <ng-template pTemplate="header">
-          <tr>
-              <th pSortableColumn="start">start<p-sortIcon field="start"></p-sortIcon></th>
-              <th pSortableColumn="places">places<p-sortIcon field="places"></p-sortIcon></th>
-              <th pSortableColumn="status">status<p-sortIcon field="status"></p-sortIcon></th>
-              <th pSortableColumn="name">name<p-sortIcon field="name"></p-sortIcon></th>
-          </tr>
+        <tr>
+          <th pSortableColumn="status">..<p-sortIcon field="status"></p-sortIcon></th>
+          <th pSortableColumn="start">time<p-sortIcon field="start"></p-sortIcon></th>
+          <th pSortableColumn="places">places<p-sortIcon field="places"></p-sortIcon></th>
+          <th pSortableColumn="maxCapacity"><p-dropdown [options]="capacity" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value, 'maxCapacity', 'equals')"></p-dropdown></th>
+          <th>name</th>
+        </tr>
       </ng-template>
       <ng-template pTemplate="body" let-car>
-          <tr>
-              <td>{{ car.start }}</td>
-              <td>{{ car.places }}  /  {{ car.maxCapacity }}</td>
-              <td>{{ car.status }}</td>
-              <td>{{ car.name }}</td>
-          </tr>
+        <tr>
+          <td>
+            <span [ngClass]="car.status == 'inProgress' ? 'glyphicon glyphicon-tower' : 'glyphicon glyphicon-time' " title="{{car.status}}"></span>
+            {{ car.status == 'inProgress' ? 'open' : 'wait' }}
+          </td>
+          <td>{{ car.start }}</td>
+          <td>{{ car.places }}</td>
+          <td>{{ car.maxCapacity }}</td>
+          <td>{{ car.name }}</td>
+        </tr>
       </ng-template>
   </p-table>

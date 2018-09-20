@@ -22,7 +22,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-car>
         <tr>
-            <td><img src="{{car.iconUrls.medium }}" alt="{{car.name}}" width="40px"> {{ car.name }}</td>
+            <td><img src="{{car.iconUrls.medium }}" alt="{{car.name}}" width="40"> {{ car.name }}</td>
             <td>{{ car.level }}  /  {{ car.maxLevel }}</td>
             <td>
               <span [ngClass]="car.isMax ? 'glyphicon glyphicon glyphicon-ok' : (car.cards >= 0) ? 'glyphicon glyphicon glyphicon-th' : 'glyphicon glyphicon-ban-circle'"></span>

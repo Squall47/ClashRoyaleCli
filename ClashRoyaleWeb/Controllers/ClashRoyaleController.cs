@@ -19,9 +19,11 @@ namespace ClashRoyaleWeb.Controllers
         public IEnumerable<TournamentItem> Tournois()
         {
             var client = new ClientCR(WebConfig.CRConfig);
-            var data = client.GetTournaments().OrderBy(p => p.CreatedTime);
+            var data = client.GetTournaments().Where(p=>p.MaxCapacity.GetValueOrDefault(50) != 1000).OrderByDescending(p=> p.MaxCapacity).ThenBy(p=> p.Capacity).ThenBy(p => p.CreatedTime).ToList();
+            var rest = data.Where(p => p.Status == "inProgress").ToList();
+            rest.AddRange(data.Where(p => p.Status != "inProgress").ToList());
             //var data = Test.Create(5);
-            return data;
+            return rest;
         }
 
         [HttpGet("[action]")]

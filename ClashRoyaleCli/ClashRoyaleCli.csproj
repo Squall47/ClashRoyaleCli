@@ -11,9 +11,7 @@
     <AssemblyTitle>ClashRoyalCli.netcoreapp2.1</AssemblyTitle>
     <DefineConstants>netcoreapp2.1</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>IF EXIST  "D:\sources\config.json" COPY "D:\sources\config.json"  "config.json" /Y</PostBuildEvent>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>

@@ -1,0 +1,1 @@
+dotnet build -f netcoreapp2.1 -r osx-x64

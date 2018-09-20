@@ -17,7 +17,8 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {ToolbarModule} from 'primeng/toolbar';
 import {ButtonModule} from 'primeng/button';
 import {SplitButtonModule} from 'primeng/splitbutton';
-import {MenuModule} from 'primeng/menu';
+import { MenuModule } from 'primeng/menu';
+import { DropdownModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {MenuModule} from 'primeng/menu';
     ToolbarModule,
     ButtonModule,
     SplitButtonModule,
-    MenuModule
+    MenuModule,
+    DropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]

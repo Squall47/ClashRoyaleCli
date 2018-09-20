@@ -111,7 +111,7 @@ namespace ClashRoyaleApi.API.Models
 
         public DateTime StartedTime => CreatedTime.AddSeconds(PreparationDuration.Value);
 
-        public string Start=> $"{DateTime.Now - StartedTime:hh':'mm}";
+        public string Start=> $"{(DateTime.Now - StartedTime).TotalMinutes:+#;-#}";
 
         public override string ToString()
         {
